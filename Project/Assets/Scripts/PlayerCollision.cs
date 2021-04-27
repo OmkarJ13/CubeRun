@@ -7,11 +7,14 @@ public class PlayerCollision : MonoBehaviour
     
     private PlayerMovement movement;
     private GameManager gameManager;
+    private LevelManager levelManager;
 
     private void Awake()
     {
         movement = GetComponent<PlayerMovement>();
+        
         gameManager = FindObjectOfType<GameManager>();
+        levelManager = FindObjectOfType<LevelManager>();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -19,6 +22,8 @@ public class PlayerCollision : MonoBehaviour
         if (other.gameObject.CompareTag("Obstacle"))
         {
             movement.enabled = false;
+            levelManager.enabled = false;
+            
             StartCoroutine(Restart());
         }
     }
