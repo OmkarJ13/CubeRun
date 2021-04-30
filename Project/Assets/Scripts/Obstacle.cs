@@ -5,7 +5,7 @@ public class Obstacle : MonoBehaviour
     public ObstacleType Type => type;
 
     [SerializeField] private ObstacleType type;
-
+    
     private LevelManager levelManager;
 
     private void Awake()
@@ -15,9 +15,10 @@ public class Obstacle : MonoBehaviour
 
     private void OnBecameInvisible()
     {
-        gameObject.SetActive(false);
-        
-        if (levelManager&& levelManager.isActiveAndEnabled)
+        if (levelManager && levelManager.isActiveAndEnabled)
+        {
+            gameObject.SetActive(false);
             levelManager.SpawnObstacle();
+        }
     }
 }

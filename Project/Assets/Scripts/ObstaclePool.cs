@@ -28,10 +28,10 @@ public class ObstaclePool : MonoBehaviour
         Array types = Enum.GetValues(typeof(ObstacleType));
         ObstacleType randomType = (ObstacleType) Random.Range(0, types.Length);
             
-        GameObject obstacle = pool.Find(x => x != null && x.GetComponentInChildren<Obstacle>()?.Type == randomType && !x.activeInHierarchy);
+        GameObject obstacle = pool.Find(x => x != null && x.GetComponent<Obstacle>()?.Type == randomType && !x.activeInHierarchy);
         if (!obstacle)
         {
-            obstacle = obstaclePrefabs.Find(x => x.GetComponentInChildren<Obstacle>()?.Type == randomType);
+            obstacle = obstaclePrefabs.Find(x => x.GetComponent<Obstacle>()?.Type == randomType);
             obstacle = Instantiate(obstacle);
             obstacle.SetActive(false);
             pool.Add(obstacle);
