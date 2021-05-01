@@ -8,6 +8,7 @@ public class PlayerCollision : MonoBehaviour
     private PlayerMovement movement;
     private GameManager gameManager;
     private LevelManager levelManager;
+    private ScoreManager scoreManager;
 
     private void Awake()
     {
@@ -15,6 +16,7 @@ public class PlayerCollision : MonoBehaviour
         
         gameManager = FindObjectOfType<GameManager>();
         levelManager = FindObjectOfType<LevelManager>();
+        scoreManager = FindObjectOfType<ScoreManager>();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -23,6 +25,7 @@ public class PlayerCollision : MonoBehaviour
         {
             movement.enabled = false;
             levelManager.enabled = false;
+            scoreManager.enabled = false;
             
             StartCoroutine(Restart());
         }
