@@ -5,7 +5,9 @@ public class Obstacle : MonoBehaviour
     public ObstacleType Type => type;
 
     [SerializeField] private ObstacleType type;
-    
+    [SerializeField] private Transform player;
+    [SerializeField] private float spawnDistance;
+
     private LevelManager levelManager;
 
     private void Awake()
@@ -13,12 +15,18 @@ public class Obstacle : MonoBehaviour
         levelManager = FindObjectOfType<LevelManager>();
     }
 
-    private void OnBecameInvisible()
+    private void LateUpdate()
     {
-        if (levelManager && levelManager.isActiveAndEnabled)
+        Vector3 direction = player.transform.position - transform.position;
+        float distance = direction.z;
+
+        if (distance >= spawnDistance)
         {
-            gameObject.SetActive(false);
-            levelManager.SpawnObstacle();
+            if (levelManager && levelManager.isActiveAndEnabled)
+            {
+                gameObject.SetActive(false);
+                levelManager.SpawnObstacle();
+            }
         }
     }
 }

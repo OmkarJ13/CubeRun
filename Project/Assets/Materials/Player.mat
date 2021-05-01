@@ -96,7 +96,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Curvature: -0.001
-    - _CurvatureX: -0.002
+    - _CurvatureX: -0.003
     - _CurvatureZ: -0.001
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
