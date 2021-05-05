@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float laneDistance = 3.0f;
 
     private Rigidbody rb;
-    private SwipeManager swipeManager;
 
     private Vector3 targetPos;
     private Vector3 currentVelocity;
@@ -20,15 +19,13 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
-        swipeManager = FindObjectOfType<SwipeManager>();
     }
 
     private void Update()
     {
-        if (swipeManager.SwipeLeft)
+        if (SwipeManager.Instance.SwipeLeft)
             SetLane(true);
-        else if (swipeManager.SwipeRight)
+        else if (SwipeManager.Instance.SwipeRight)
             SetLane(false);
     }
 

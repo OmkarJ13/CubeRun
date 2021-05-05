@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    private void Awake()
+    protected override void Awake()
     {
         #if UNITY_EDITOR
         Debug.unityLogger.logEnabled = true;

@@ -1,19 +1,23 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : Singleton<ScoreManager>
 {
     [SerializeField] private Transform player;
 
     private Text scoreText;
+    
+    // ReSharper disable once MemberCanBePrivate.Global
+    public int CurrentScore { get; private set; }
 
-    private void Awake()
+    protected override void Awake()
     {
         scoreText = GetComponent<Text>();
     }
 
     private void LateUpdate()
-    {
-        scoreText.text = Mathf.RoundToInt(player.position.z).ToString();
+    { 
+        CurrentScore = Mathf.RoundToInt(player.position.z);
+        scoreText.text = CurrentScore.ToString();
     }
 }

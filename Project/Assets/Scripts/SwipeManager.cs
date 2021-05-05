@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SwipeManager : MonoBehaviour
+public class SwipeManager : Singleton<SwipeManager>
 {
     public bool SwipeLeft => swipeLeft;
     public bool SwipeRight => swipeRight;
