@@ -5,8 +5,8 @@ using Random = UnityEngine.Random;
 
 public class ObstaclePool : MonoBehaviour
 {
-    [SerializeField] List<GameObject> obstaclePrefabs;
-    [SerializeField] int amountPerPrefabs;
+    [SerializeField] private List<GameObject> obstaclePrefabs;
+    [SerializeField] private int amountPerPrefabs = 1;
     
     private readonly List<GameObject> pool = new List<GameObject>();
 
@@ -28,7 +28,7 @@ public class ObstaclePool : MonoBehaviour
         Array types = Enum.GetValues(typeof(ObstacleType));
         ObstacleType randomType = (ObstacleType) Random.Range(0, types.Length);
             
-        GameObject obstacle = pool.Find(x => x != null && x.GetComponent<Obstacle>()?.Type == randomType && !x.activeInHierarchy);
+        GameObject obstacle = pool.Find(x => x && x.GetComponent<Obstacle>()?.Type == randomType && !x.activeInHierarchy);
         if (!obstacle)
         {
             obstacle = obstaclePrefabs.Find(x => x.GetComponent<Obstacle>()?.Type == randomType);
