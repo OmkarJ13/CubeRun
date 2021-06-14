@@ -1,25 +1,27 @@
 using UnityEngine;
 
-public class SwipeManager : Singleton<SwipeManager>
+public class SwipeManager : MonoBehaviour
 {
-    public bool SwipeLeft => swipeLeft;
-    public bool SwipeRight => swipeRight;
-    public bool SwipeUp => swipeUp;
-    public bool SwipeDown => swipeDown;
-    
+    [Header("Swipe Settings")]
     [SerializeField] private float touchDeadzone;
     [SerializeField] private float mouseDeadzone;
+    
+    public bool SwipeLeft { get; private set; }
+    public bool SwipeRight { get; private set; }
+    public bool SwipeUp { get; private set; }
+    public bool SwipeDown { get; private set; }
+    
+    public bool Tap { get; private set; }
 
-    private Vector3 start, end, swipeDelta;
-
-    private bool swipeLeft, swipeRight, swipeUp, swipeDown;
-    private bool hasSwiped;
+    private Vector3 _start, _end, _swipeDelta;
+    
+    private bool _hasSwiped;
 
     private void Update()
     {
-        swipeLeft = swipeRight = swipeUp = swipeDown = false; // Reset this variables every frame to get the exact frame the player swiped
+        SwipeLeft = SwipeRight = SwipeUp = SwipeDown = Tap = false; // Reset this variables every frame to get the exact frame the player swiped
 
-        if (!hasSwiped)
+        if (!_hasSwiped)
         {
             #region Mobile Input
             if (Input.touchCount > 0)
@@ -27,44 +29,44 @@ public class SwipeManager : Singleton<SwipeManager>
                 Touch touch = Input.touches[0];
                 if (touch.phase == TouchPhase.Began)
                 {
-                    start = touch.position;
+                    _start = touch.position;
                 }
                 else if (touch.phase == TouchPhase.Moved)
                 {
-                    end = touch.position; 
-                    swipeDelta = new Vector3(end.x - start.x, end.y - start.y); // Subtract the initial position from the current position to get a vector in the direction of the swipe
+                    _end = touch.position; 
+                    _swipeDelta = new Vector3(_end.x - _start.x, _end.y - _start.y); // Subtract the initial position from the current position to get a vector in the direction of the swipe
 
-                    if (swipeDelta.magnitude >= touchDeadzone)
+                    if (_swipeDelta.magnitude >= touchDeadzone)
                     {
-                        hasSwiped = true;
+                        _hasSwiped = true;
 
-                        float x = swipeDelta.x;
-                        float y = swipeDelta.y;
+                        float x = _swipeDelta.x;
+                        float y = _swipeDelta.y;
 
                         if (Mathf.Abs(x) > Mathf.Abs(y)) // If the absolute value of x co-ordinate is greater than y, then the swipe lies on the left or right side of the screen, else up or down
                         {
                             if (x > 0f)
                             {
-                                swipeRight = true;
-                                Debug.Log("Swiped Right.");
+                                SwipeRight = true;
+                                // Debug.Log("Swiped Right.");
                             }
                             else
                             {
-                                swipeLeft = true;
-                                Debug.Log("Swiped Left.");
+                                SwipeLeft = true;
+                                // Debug.Log("Swiped Left.");
                             }
                         }
                         else
                         {
                             if (y > 0f)
                             {
-                                swipeUp = true;
-                                Debug.Log("Swiped Up.");
+                                SwipeUp = true;
+                                // Debug.Log("Swiped Up.");
                             }
                             else
                             {
-                                swipeDown = true;
-                                Debug.Log("Swiped Down");
+                                SwipeDown = true;
+                                // Debug.Log("Swiped Down");
                             }
                         }
                         Reset();
@@ -76,30 +78,30 @@ public class SwipeManager : Singleton<SwipeManager>
             #region Mouse Input
             if (Input.GetMouseButtonDown(0))
             {
-                start = Input.mousePosition;
+                _start = Input.mousePosition;
             }
             else if (Input.GetMouseButton(0))
             {
-                end = Input.mousePosition;
-                swipeDelta = new Vector3(end.x - start.x, end.y - start.y);
+                _end = Input.mousePosition;
+                _swipeDelta = new Vector3(_end.x - _start.x, _end.y - _start.y);
 
-                if (swipeDelta.magnitude >= mouseDeadzone)
+                if (_swipeDelta.magnitude >= mouseDeadzone)
                 {
-                    hasSwiped = true;
+                    _hasSwiped = true;
 
-                    float x = swipeDelta.x;
-                    float y = swipeDelta.y;
+                    float x = _swipeDelta.x;
+                    float y = _swipeDelta.y;
 
                     if (Mathf.Abs(x) > Mathf.Abs(y))
                     {
                         if (x > 0f)
                         {
-                            swipeRight = true;
+                            SwipeRight = true;
                             Debug.Log("Swiped Right.");
                         }
                         else
                         {
-                            swipeLeft = true;
+                            SwipeLeft = true;
                             Debug.Log("Swiped Left.");
                         }
                     }
@@ -107,12 +109,12 @@ public class SwipeManager : Singleton<SwipeManager>
                     {
                         if (y > 0f)
                         {
-                            swipeUp = true;
+                            SwipeUp = true;
                             Debug.Log("Swiped Up.");
                         }
                         else
                         {
-                            swipeDown = true;
+                            SwipeDown = true;
                             Debug.Log("Swiped Down");
                         }
                     }
@@ -121,21 +123,23 @@ public class SwipeManager : Singleton<SwipeManager>
             }
             #endregion
         }
-        else if (Input.touchCount > 0) // If the player has swiped but is still touching the screen, check if the touch has ended or canceled
+        
+        if (Input.touchCount > 0) // If the player has swiped but is still touching the screen, check if the touch has ended or canceled
         {
             if (Input.touches[0].phase == TouchPhase.Canceled || Input.touches[0].phase == TouchPhase.Ended)
             {
-                hasSwiped = false;
+                _hasSwiped = false;
             }
         }
         else if(Input.GetMouseButtonUp(0))
         {
-            hasSwiped = false;
+            Tap = true;
+            _hasSwiped = false;
         }
     }
 
     private void Reset()
     {
-        start = end = swipeDelta = Vector3.zero; // Reset all the vectors
+        _start = _end = _swipeDelta = Vector3.zero; // Reset all the vectors
     }
 }
