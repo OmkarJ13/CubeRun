@@ -1,30 +1,87 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Tile : MonoBehaviour
 {
-    public float Length { get; protected set; }
+    public float length { get; private set; }
+    
+    protected LevelGenerator levelGenerator;
+    protected Player player;
+    protected Transform playerTransform;
 
-    protected LevelGenerator LevelGenerator;
-    protected Transform Player;
+    protected MeshRenderer[] childRenderers;
+
+    protected float offset = 10.0f;
 
     protected virtual void Awake()
     {
-        LevelGenerator = FindObjectOfType<LevelGenerator>();
-        Player = GameObject.FindGameObjectWithTag("Player").transform;
+        levelGenerator = FindObjectOfType<LevelGenerator>();
+        player = FindObjectOfType<Player>();
 
-        Length = GetComponent<MeshRenderer>().bounds.size.z;
+        playerTransform = player.transform;
+
+        CenterParent();
+        CacheChildRenderers();
+        
+        length = GetLength();
+    }
+
+    private void CacheChildRenderers()
+    {
+        childRenderers = GetComponentsInChildren<MeshRenderer>(true);
+    }
+
+    public float GetLength()
+    {
+        Bounds bounds = new Bounds(transform.position, Vector3.zero);
+        foreach (MeshRenderer meshRenderer in childRenderers)
+        {
+            bounds.Encapsulate(meshRenderer.bounds);
+        }
+
+        return bounds.size.z;
+    }
+
+    protected void CenterParent()
+    {
+        List<Transform> children = new List<Transform>();
+        Vector3 center = Vector3.zero;
+        
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            children.Add(transform.GetChild(i));
+        }
+
+        foreach (Transform child in children)
+        {
+            center += child.position;
+            child.SetParent(null);
+        }
+
+        center /= children.Count;
+        center.x = 0.0f;
+        center.y = 0.0f;
+
+        transform.position = center;
+
+        foreach (Transform child in children)
+        {
+            child.SetParent(transform);
+        }
     }
 
     protected virtual void LateUpdate()
     {
-        Vector3 distance = Player.position - transform.position;
+        if (player._isDead) return;
+        
+        Vector3 distance = playerTransform.position - transform.position;
 
-        if (distance.z >= Length)
+        if (distance.z >= length + offset)
         {
-            if (LevelGenerator.isActiveAndEnabled)
+            if (levelGenerator.isActiveAndEnabled)
             {
                 gameObject.SetActive(false);
-                LevelGenerator.SpawnSegment();
+                levelGenerator.SpawnSegment();
             }
         }
     }

@@ -5,6 +5,8 @@ public class CameraShake : MonoBehaviour
 {
     public IEnumerator Shake(float intensity, float time)
     {
+        if (intensity == 0.0f || time == 0.0f) yield return null;
+        
         Vector3 originalPos = transform.localPosition;
         float elapsedTime = 0.0f;
 

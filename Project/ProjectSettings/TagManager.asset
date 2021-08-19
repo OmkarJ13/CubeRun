@@ -6,16 +6,23 @@ TagManager:
   tags:
   - Obstacle
   - Ground
+  - Coin
+  - Ramp
+  - Shield
+  - Magnet
+  - MagnetPowerUp
+  - ShieldPowerUp
+  - Rocket
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Obstacles
+  - Interactables
+  - Coins
   - 
   - 
   - 

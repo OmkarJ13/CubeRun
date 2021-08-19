@@ -5,69 +5,52 @@ public class LevelGenerator : MonoBehaviour
 {
     [Header("Object Pools")]
     [SerializeField] private ObstaclePool obstaclePool;
-    [SerializeField] private TransitionPool transitionPool;
 
     [Header("Obstacle")]
     [SerializeField] private int minObstacles = 5;
     [SerializeField] private int maxObstacles = 10;
-    
+    [SerializeField] private int obstaclesAtStart = 5;
+    [SerializeField] private float distBetweenObstacles = 50.0f;
+
     [Header("Transition")]
-    [SerializeField] [Range(0, 6)] private int transitionsAtStart = 4;
-    [SerializeField] private int minTransitions = 2;
-    [SerializeField] private int maxTransitions = 4;
+    [SerializeField] private float transitionDistAtStart = 40.0f;
+    [SerializeField] private float minTransitionDist = 40.0f;
+    [SerializeField] private float maxTransitionDist = 80.0f;
 
     private Vector3 _currentPos;
+    private float _prevObstacleLength;
     private int _continuousObstacles;
 
     private void Start()
     {
-        SetupTransitions();
-    }
-
-    private void SetupTransitions()
-    {
-        for (int i = 0; i < transitionsAtStart; i++)
+        _currentPos += Vector3.forward * transitionDistAtStart;
+        for (int i = 0; i < obstaclesAtStart; i++)
         {
-            SpawnTransition();
+            SpawnSegment();
         }
     }
-
     public void SpawnSegment()
     {
         ObstacleTile obstacle = obstaclePool.GetObstacle();
-        
         GameObject obj = obstacle.gameObject;
 
-        obj.transform.position = _currentPos;
-        obj.transform.rotation = Quaternion.identity;
+        _currentPos += Vector3.forward * (obstacle.length / 2.0f + distBetweenObstacles + _prevObstacleLength / 2.0f);
+        bool facingForward = Random.Range(0.0f, 1.0f) > 0.5f;
+        Quaternion targetRot = Quaternion.Euler(facingForward ? Vector3.zero : Vector3.up * 180.0f); 
+        obj.transform.SetPositionAndRotation(_currentPos, targetRot);
+
         obj.SetActive(true);
-        
-        _currentPos += Vector3.forward * obstacle.Length;
-        
+
         _continuousObstacles++;
 
         if (_continuousObstacles >= Random.Range(minObstacles, maxObstacles))
         {
             _continuousObstacles = 0;
             
-            int transitionsToSpawn = Random.Range(minTransitions, maxTransitions);
-            for (int i = 0; i < transitionsToSpawn; i++)
-            {
-                SpawnTransition();
-            }
+            float transitionDist = Random.Range(minTransitionDist, maxTransitionDist);
+            _currentPos += Vector3.forward * (obstacle.length / 2.0f + transitionDist);
         }
-    }
 
-    private void SpawnTransition()
-    {
-        TransitionTile transition = transitionPool.GetTransition();
-
-        GameObject obj = transition.gameObject;
-
-        obj.transform.position = _currentPos;
-        obj.transform.rotation = Quaternion.identity;
-        obj.SetActive(true);
-        
-        _currentPos += Vector3.forward * transition.Length;
+        _prevObstacleLength = obstacle.length;
     }
 }
