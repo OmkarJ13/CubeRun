@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,10 +29,9 @@ public class PowerUpWheelButton : MonoBehaviour
 
     private void OnEnable()
     {
-        if (toggle.isOn)
-        {
-            toggle.isOn = false;
-        }
+        toggle.isOn = false;
+        selectedItemText.text = "";
+        selectedItemDescription.text = "";
     }
 
     public void ButtonSelected()

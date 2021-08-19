@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class PowerUpWheel : MonoBehaviour
 {
-    public PowerUpWheelButton selectedButton;
+    [HideInInspector] public PowerUpWheelButton selectedButton;
     
     [SerializeField] private Player player;
     [SerializeField] private CoroutineHandler coroutineHandler;
+    [SerializeField] private UIManager uiManager;
 
     private Animator animator;
     
@@ -53,6 +54,8 @@ public class PowerUpWheel : MonoBehaviour
     {
         player._isPowerUpWheelActive = false;
         Time.timeScale = 1.0f;
+        
+        uiManager.EnableHUD();
     }
 
     public void CancelSelection()

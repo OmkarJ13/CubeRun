@@ -20,8 +20,9 @@ public class Player : MonoBehaviour
      [SerializeField] private float laneDistance = 3.0f;
      [SerializeField] private float scaledDownTime = 0.75f;
 
-     [Header("Power-Ups")] 
-     [Header("Power-Up Timer")] 
+     [Header("Power-Ups")] [Header("Power-Up Timer")] 
+     [SerializeField] private GameObject powerUpTimerUI;
+     
      [SerializeField] private TextMeshProUGUI powerUpText;
      [SerializeField] private Image powerUpIcon;
      [SerializeField] private Image powerUpTimer;
@@ -117,8 +118,6 @@ public class Player : MonoBehaviour
         SetupShieldPowerUp();
         SetupMagnetPowerUp();
         SetupRocketPowerUp();
-
-        StartCoroutine(CountDownTimer(10.0f));
     }
 
     private void SetupRocketPowerUp()
@@ -300,7 +299,14 @@ public class Player : MonoBehaviour
 
     private IEnumerator CountDownTimer(float upTime)
     {
-        yield return new WaitForSeconds(upTime);
+        float remainingTime = upTime;
+        while (remainingTime > 0.0f)
+        {
+            remainingTime -= Time.deltaTime;
+            powerUpTimer.fillAmount = remainingTime / upTime;
+            
+            yield return null;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -313,11 +319,30 @@ public class Player : MonoBehaviour
             other.gameObject.SetActive(false);
         }
     }
+
+    private void SetupTimerUI(PowerUpWheelButton selectedButton)
+    {
+        powerUpTimerUI.SetActive(true);
+        
+        powerUpText.text = selectedButton.itemName;
+        powerUpIcon.sprite = selectedButton.itemIcon;
+        powerUpTimer.fillAmount = 1.0f;
+    }
+
+    private void RemoveTimerUI()
+    {
+        powerUpText.text = "";
+        powerUpIcon.sprite = null;
+        
+        powerUpTimerUI.SetActive(false);
+    }
     
     public IEnumerator ActivateRocket(PowerUpWheelButton buttonInfo)
     {
         _hasRocket = true;
         _rocket.SetActive(true);
+
+        SetupTimerUI(buttonInfo);
 
         _useGravity = false;
 
@@ -325,7 +350,6 @@ public class Player : MonoBehaviour
         StartCoroutine(followCamera.LookAt(transform));
 
         float value = 0.0f;
-
         while (value <= 1.0f)
         {
             foreach (var material in _rocketMat)
@@ -339,15 +363,21 @@ public class Player : MonoBehaviour
         }
         
         _verticalVelocity = jumpSpeed;
+        
         yield return new WaitForSeconds(1.0f);
+        
         _verticalVelocity = 0.0f;
-
-        yield return StartCoroutine(CountDownTimer(5.0f));
+        forwardSpeed *= 2.0f;
+        
+        yield return StartCoroutine(CountDownTimer(rocketUptime));
         StartCoroutine(DeactivateRocket());
     }
 
     private IEnumerator DeactivateRocket()
     {
+        RemoveTimerUI();
+        forwardSpeed /= 2.0f;
+
         followCamera.offset -= Vector3.up * cameraRocketOffset;
         StartCoroutine(followCamera.ResetLookAt());
 
@@ -367,7 +397,7 @@ public class Player : MonoBehaviour
         
         _useGravity = true;
         _hasRocket = false;
-        
+
         _rocket.SetActive(false);
     }
     
@@ -375,7 +405,9 @@ public class Player : MonoBehaviour
     {
         _hasMagnet = true;
         _magnet.SetActive(true);
-
+        
+        SetupTimerUI(buttonInfo);
+        
         StartCoroutine(AttractCoins());
         
         float alpha = 0.0f;
@@ -392,7 +424,7 @@ public class Player : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(magnetUptime);
+        yield return StartCoroutine(CountDownTimer(magnetUptime));
         yield return StartCoroutine(DeactivateMagnet());
     }
 
@@ -400,7 +432,12 @@ public class Player : MonoBehaviour
     {
         _hasDoubleJump = true;
         _canDoubleJump = true;
-        yield return new WaitForSeconds(doubleJumpUptime);
+        
+        SetupTimerUI(buttonInfo);
+
+        yield return StartCoroutine(CountDownTimer(doubleJumpUptime));
+        
+        RemoveTimerUI();
         _canDoubleJump = false;
         _hasDoubleJump = false;
     }
@@ -427,6 +464,8 @@ public class Player : MonoBehaviour
 
     private IEnumerator DeactivateMagnet()
     {
+        RemoveTimerUI();
+        
         float alpha = 1.0f;
         float target = 0.0f;
 
@@ -449,26 +488,27 @@ public class Player : MonoBehaviour
     {
         _hasShield = true;
         _shield.SetActive(true);
+        
+        SetupTimerUI(buttonInfo);
 
         float value = 0.0f;
-
         while (value <= 1.0f)
         {
             _shieldMat.SetFloat(_shieldDissolveValue, value);
-            
             value += shieldDissolveSpeed * Time.deltaTime;
 
             yield return null;
         }
 
-        yield return new WaitForSeconds(shieldUptime);
+        yield return StartCoroutine(CountDownTimer(shieldUptime));
         yield return StartCoroutine(DeactivateShield());
     }
 
     private IEnumerator DeactivateShield()
     {
-        float value = 1.0f;
+        RemoveTimerUI();
         
+        float value = 1.0f;
         while (value >= 0.0f)
         {
             _shieldMat.SetFloat(_shieldDissolveValue, value);
