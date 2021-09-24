@@ -10,9 +10,28 @@ TagManager:
   - Ramp
   - Shield
   - Magnet
-  - MagnetPowerUp
-  - ShieldPowerUp
   - Rocket
+  - DoubleJump
+  - SwipeManager
+  - GameManager
+  - LevelGenerator
+  - CoroutineHandler
+  - ObstaclePool
+  - BuildingsPool
+  - PowerUpWheel
+  - PowerUpTimer
+  - DoubleTapWidget
+  - GameOverWidget
+  - PauseMenu
+  - SwipeUpWidget
+  - SwipeDownWidget
+  - SwipeLeftWidget
+  - SwipeRightWidget
+  - PowerUpWheelCooldown
+  - TutorialCompleteWidget
+  - UIManager
+  - CameraHolder
+  - HUDWidget
   layers:
   - Default
   - TransparentFX

@@ -1403,7 +1403,7 @@
     "m_Name": "CurveStrength",
     "m_DefaultReferenceName": "Vector2_571c81db32b743359bb241597ab70437",
     "m_OverrideReferenceName": "_CurveStrength",
-    "m_GeneratePropertyBlock": true,
+    "m_GeneratePropertyBlock": false,
     "m_Precision": 0,
     "overrideHLSLDeclaration": true,
     "hlslDeclarationOverride": 1,

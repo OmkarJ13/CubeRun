@@ -11,14 +11,14 @@ GameObject:
   - component: {fileID: 2221197467949671978}
   - component: {fileID: 2989436607073626511}
   - component: {fileID: 1051708747153202501}
-  - component: {fileID: 1826770576405369092}
+  - component: {fileID: 603764544}
   m_Layer: 0
   m_Name: Magnet
   m_TagString: Magnet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2221197467949671978
 Transform:
   m_ObjectHideFlags: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556160765878303888}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.25, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
@@ -84,17 +84,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1826770576405369092
-MeshCollider:
+--- !u!114 &603764544
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556160765878303888}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 5036211334292771574, guid: 55b0d6fef33bc5149bb40f89ef8fc23b, type: 3}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b983b8d20ffc5c845b9411c5f0981631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpName: MAGNET
+  icon: {fileID: 21300000, guid: b6b087e19907de445a526ce8471717c5, type: 3}
+  uptime: 15
+  powerUpWheel: {fileID: 0}
+  timer: {fileID: 0}
+  player: {fileID: 0}
+  coinAttractSpeed: 25
+  coinScaleDownSpeed: 0.25
+  coinLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  attractCoinsBox: {x: 50, y: 50, z: 50}
+  magnetDissolveSpeed: 2.5
+  coroutineHandler: {fileID: 0}
