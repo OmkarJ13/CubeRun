@@ -4,9 +4,9 @@ using UnityEngine.Events;
 public class FadeAnimation : MonoBehaviour
 {
     [Header("Animation")]
-    [SerializeField] private LeanTweenType type;
     [SerializeField] [Range(0.0f, 1.0f)] private float initialAlpha;
     [SerializeField] [Range(0.0f, 1.0f)] private float finalAlpha;
+    [SerializeField] private LeanTweenType type = LeanTweenType.easeOutSine;
     [SerializeField] private float time;
     [SerializeField] private float startDelay;
     [SerializeField] private float endDelay;

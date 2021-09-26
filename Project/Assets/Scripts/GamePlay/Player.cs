@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
+
 
 public class Player : MonoBehaviour
 {
@@ -12,42 +14,49 @@ public class Player : MonoBehaviour
     [SerializeField] private float turnSpeed = 10.0f;
     [SerializeField] private float jumpSpeed = 10.0f;
     [SerializeField] private float scaleSpeed = 10.0f;
-     
-     [Header("Speed Modifiers")]
-     [SerializeField] private float speedModifier = 0.1f;
-     [SerializeField] private float jumpModifier = 0.1f;
-     [SerializeField] private float gravityModifier = 0.2f;
-     [SerializeField] private float speedIncreaseTime = 10.0f;
-     
-     [Header("Max Speeds")]
-     [SerializeField] private float maxSpeed = 40.0f;
-     [SerializeField] private float maxJumpSpeed = 20.0f;
-     [SerializeField] private float maxGravity = -39.24f;
-     
-     [Header("Others")]
-     [SerializeField] private float laneDistance = 3.0f;
-     [SerializeField] private float scaledDownTime = 0.75f;
-     [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float flyingSpeed = 80.0f;
 
-     [Header("Dependencies")]
-     [SerializeField] private LayerMask obstacleLayerMask;
-     [SerializeField] private PowerUpWheel powerUpWheel;
-     [SerializeField] private PowerUpWheelCooldown powerUpWheelCooldown;
-     
-     // Power-Ups
-     public ShieldPowerUp shield { get; private set; }
-     public MagnetPowerUp magnet { get; private set; }
-     public DoubleJumpPowerUp doubleJump { get; private set; }
-     public RocketPowerUp rocket { get; private set; }
+    [Header("Speed Modifiers")] 
+    [SerializeField] private float speedModifier = 0.1f;
 
-     // Dependencies
-     private CameraShake cameraShake;
-     private SwipeManager swipeManager;
-     private GameManager gameManager;
-     private CoroutineHandler coroutineHandler;
-     private UIManager uiManager;
+    [SerializeField] private float jumpModifier = 0.1f;
+    [SerializeField] private float gravityModifier = 0.2f;
+    [SerializeField] private float speedIncreaseTime = 10.0f;
 
-     // Events
+    [Header("Max Speeds")] 
+    [SerializeField] private float maxSpeed = 40.0f;
+    [SerializeField] private float maxJumpSpeed = 20.0f;
+    [SerializeField] private float maxGravity = -39.24f;
+
+    [Header("Others")] 
+    [SerializeField] private float laneDistance = 3.0f;
+    [SerializeField] private float scaledDownTime = 0.75f;
+    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float gameOverDelay = 1.0f;
+
+    [Header("Dependencies")] 
+    [SerializeField] private GameObject shatteredPlayerPrefab;
+    [SerializeField] private GameObject gameOverWidget;
+    [SerializeField] private PowerUpWheel powerUpWheel;
+    [SerializeField] private PowerUpWheelCooldown powerUpWheelCooldown;
+    [SerializeField] private PowerUpTimer powerUpTimer;
+
+    // Power-Ups
+    public ShieldPowerUp shield { get; private set; }
+    public MagnetPowerUp magnet { get; private set; }
+    public DoubleJumpPowerUp doubleJump { get; private set; }
+    public RocketPowerUp rocket { get; private set; }
+
+    // Dependencies
+    private CameraShake cameraShake;
+    private CoroutineHandler coroutineHandler;
+    private LevelGenerator levelGenerator;
+    private FollowCamera followCamera;
+    private SwipeManager swipeManager;
+    private GameManager gameManager;
+    private UIManager uiManager;
+
+    // Events
     public event Action ScoreUpdated;
     public event Action HighScoreUnlocked;
     public event Action CoinCollected;
@@ -59,21 +68,21 @@ public class Player : MonoBehaviour
 
     // Components
     private CharacterController controller;
-
+    
     // Variables
-    [HideInInspector] public float verticalVelocity;
+    private GameObject shatteredPlayer;
+    private float verticalVelocity;
     private float lastSpeedIncreaseTime;
     private int desiredLane = 1;
 
     // Flags
     [HideInInspector] public bool canDoubleJump;
     [HideInInspector] public bool useGravity;
-    
-    public bool isDead { get; set; }
+
+    public bool isDead { get; private set; }
     public bool hasAnyPowerUp { get; private set; }
-    
-    private bool isGrounded;
-    private bool scalingDown;
+    public bool isGrounded { get; private set; }
+    public bool scalingDown { get; private set; }
 
     private void Awake()
     {
@@ -85,9 +94,11 @@ public class Player : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         cameraShake = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShake>();
+        coroutineHandler = GameObject.FindGameObjectWithTag("CoroutineHandler").GetComponent<CoroutineHandler>();
+        levelGenerator = GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>();
+        followCamera = GameObject.FindGameObjectWithTag("CameraHolder").GetComponent<FollowCamera>();
         swipeManager = GameObject.FindGameObjectWithTag("SwipeManager").GetComponent<SwipeManager>();
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        coroutineHandler = GameObject.FindGameObjectWithTag("CoroutineHandler").GetComponent<CoroutineHandler>();
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
     }
 
@@ -169,14 +180,14 @@ public class Player : MonoBehaviour
         RotateToVelocityDirection();
     }
 
-    public float GetCurrentSpeed()
+    public float GetForwardSpeed()
     {
         return forwardSpeed;
     }
 
     private void IncreaseDifficulty()
     {
-        if (!isDead && Time.time  - speedIncreaseTime > lastSpeedIncreaseTime)
+        if (!isDead && Time.time - speedIncreaseTime > lastSpeedIncreaseTime)
         {
             lastSpeedIncreaseTime = Time.time;
 
@@ -202,7 +213,7 @@ public class Player : MonoBehaviour
     }
 
     private void OnSwipedLeft()
-    { 
+    {
         SetLane(true);
     }
 
@@ -287,7 +298,7 @@ public class Player : MonoBehaviour
 
         Vector3 moveDelta = Vector3.zero;
         float nextX = Mathf.MoveTowards(currentX, targetX, sidewaysSpeed * Time.deltaTime);
-        
+
         if (controller.isGrounded)
         {
             if (doubleJump.isActiveAndEnabled)
@@ -304,12 +315,12 @@ public class Player : MonoBehaviour
 
         moveDelta.x = nextX - currentX;
         moveDelta.y = verticalVelocity * Time.deltaTime;
-        
+
         if (rocket.isActiveAndEnabled)
-            moveDelta.z = rocket.rocketSpeed * Time.deltaTime;
+            moveDelta.z = flyingSpeed * Time.deltaTime;
         else
-            moveDelta.z = forwardSpeed * Time.deltaTime; 
-        
+            moveDelta.z = forwardSpeed * Time.deltaTime;
+
         controller.Move(moveDelta);
     }
 
@@ -319,12 +330,23 @@ public class Player : MonoBehaviour
         {
             if (shield.isActiveAndEnabled)
             {
-                shield.DestroyObstacles();
+                UseShield();
             }
             else
             {
                 PlayerLost();
             }
+        }
+    }
+
+    private void UseShield()
+    {
+        if (shield.isActiveAndEnabled)
+        {
+            DestroySurroundings();
+            coroutineHandler.StartPersistingCoroutine(cameraShake.Shake(0.2f, 0.2f));
+            coroutineHandler.StartPersistingCoroutine(shield.DeactivateShield());
+            powerUpTimer.onTimerComplete?.Invoke();
         }
     }
 
@@ -334,18 +356,75 @@ public class Player : MonoBehaviour
         {
             CollectedCoins++;
             CoinCollected?.Invoke();
-            
+
             other.gameObject.SetActive(false);
         }
     }
+
     private void PlayerLost()
     {
         isDead = true;
 
         coroutineHandler.StartPersistingCoroutine(cameraShake.Shake(0.2f, 0.2f));
-        coroutineHandler.StartPersistingCoroutine(gameManager.GameOver());
-        
+        coroutineHandler.StartPersistingCoroutine(GameOver());
+
         gameObject.SetActive(false);
+    }
+
+    public IEnumerator GameOver()
+    {
+        PlayerPrefs.SetInt("HighScore", HighScore);
+
+        int currentCoins = PlayerPrefs.GetInt("Coins", 0);
+        PlayerPrefs.SetInt("Coins", currentCoins + CollectedCoins);
+
+        ReplacePlayerMesh();
+
+        levelGenerator.enabled = false;
+        uiManager.DisableHUD();
+
+        yield return new WaitForSeconds(gameOverDelay);
+
+        gameOverWidget.SetActive(true);
+    }
+
+    private void ReplacePlayerMesh()
+    {
+        Transform playerTransform = transform;
+        shatteredPlayer = Instantiate(shatteredPlayerPrefab, playerTransform.position, playerTransform.rotation);
+        shatteredPlayer.transform.localScale = playerTransform.localScale;
+        followCamera.followTargets = new List<Transform>();
+
+        for (int i = 0; i < shatteredPlayer.transform.childCount; i++)
+        {
+            followCamera.followTargets.Add(shatteredPlayer.transform.GetChild(i));
+        }
+    }
+    
+    public void RevivePlayer()
+    {
+        DestroySurroundings();
+        
+        Destroy(shatteredPlayer);
+        gameObject.SetActive(true);
+
+        followCamera.followTargets = new List<Transform> { transform };
+        isDead = false;
+
+        levelGenerator.enabled = true;
+        uiManager.EnableHUD();
+    }
+    
+    private void DestroySurroundings()
+    {
+        Collider[] results = Physics.OverlapBox(transform.position, new Vector3(100, 100, 100), Quaternion.identity, LayerMask.GetMask("Obstacles"));
+        if (results.Length > 0)
+        {
+            foreach (Collider result in results)
+            {
+                result.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void Jump()
@@ -366,7 +445,7 @@ public class Player : MonoBehaviour
         Vector3 targetScale = currentScale / 2.0f;
 
         float initialWidth = controller.skinWidth;
-        
+
         float currentWidth = initialWidth;
         float targetWidth = initialWidth / 2.0f;
 
@@ -374,45 +453,47 @@ public class Player : MonoBehaviour
         {
             currentScale = Vector3.MoveTowards(currentScale, targetScale, scaleSpeed * Time.deltaTime);
             transform.localScale = currentScale;
-            
+
             currentWidth = Mathf.MoveTowards(currentWidth, targetWidth, scaleSpeed * Time.deltaTime);
             controller.skinWidth = currentWidth;
 
-            if (Physics.CheckBox(transform.position, currentScale / 2.0f, transform.rotation, obstacleLayerMask) && !isDead)
+            if (Physics.CheckBox(transform.position, currentScale / 2.0f, transform.rotation,
+                LayerMask.GetMask("Obstacles")) && !isDead)
             {
                 if (shield.isActiveAndEnabled)
-                    shield.DestroyObstacles();
+                    UseShield();
                 else
                     PlayerLost();
             }
 
             yield return null;
         }
-        
+
         yield return new WaitForSeconds(scaledDownTime);
 
         targetScale = Vector3.one;
         targetWidth = initialWidth;
-        
+
         while (currentScale != targetScale)
         {
             currentScale = Vector3.MoveTowards(currentScale, targetScale, scaleSpeed * Time.deltaTime);
             transform.localScale = currentScale;
-            
+
             currentWidth = Mathf.MoveTowards(currentWidth, targetWidth, scaleSpeed * Time.deltaTime);
             controller.skinWidth = currentWidth;
 
-            if (Physics.CheckBox(transform.position, currentScale / 2.0f, transform.rotation, obstacleLayerMask) && !isDead)
+            if (Physics.CheckBox(transform.position, currentScale / 2.0f, transform.rotation,
+                LayerMask.GetMask("Obstacles")) && !isDead)
             {
                 if (shield.isActiveAndEnabled)
-                    shield.DestroyObstacles();
+                    UseShield();
                 else
                     PlayerLost();
             }
 
             yield return null;
         }
-        
+
         scalingDown = false;
     }
 
@@ -425,19 +506,24 @@ public class Player : MonoBehaviour
     private void UpdateScore()
     {
         if (isDead) return;
-        
-        CurrentScore = ((int) transform.position.z);
+
+        CurrentScore = ((int)transform.position.z);
         if (CurrentScore > HighScore)
         {
             HighScore = CurrentScore;
             HighScoreUnlocked?.Invoke();
         }
-        
+
         ScoreUpdated?.Invoke();
     }
 
     private void GroundCheck()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, controller.radius + controller.skinWidth);
+    }
+
+    public void SetVerticalVelocity(float value)
+    {
+        verticalVelocity = value;
     }
 }

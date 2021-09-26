@@ -8,10 +8,11 @@ using UnityEngine;
 public class FollowCamera : MonoBehaviour
 {   
     [Header("Follow Settings")]
-    public List<Transform> followTargets;
-    public Vector3 offset;
     [SerializeField] [Range (0.0f, 1.0f)] private float smoothTime = 0.1f;
     [SerializeField] private float lookAtRotationSpeed = 10.0f;
+    [SerializeField] private Vector3 offset;
+
+    public List<Transform> followTargets;
 
     private Vector3 velocity;
 
@@ -80,5 +81,10 @@ public class FollowCamera : MonoBehaviour
             
             yield return null;
         }
+    }
+
+    public void AddOffset(Vector3 newOffset)
+    {
+        offset += newOffset;
     }
 }

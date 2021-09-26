@@ -5,19 +5,19 @@ using UnityEngine;
 
 public class MagnetPowerUp : PowerUp
 {
-    [Header("Power-Up")]
-    [SerializeField] private float coinAttractSpeed = 10.0f;
-    [SerializeField] private LayerMask coinLayer;
-    [SerializeField] private Vector3 attractCoinsBox = new Vector3(50.0f, 50.0f, 50.0f);
-
+    [Header("Power-Up Settings")]
+    [SerializeField] private Vector3 attractCoinsArea = new Vector3(50.0f, 50.0f, 50.0f);
     [SerializeField] private float magnetDissolveSpeed = 2.5f;
-    private static readonly int magnetAlphaValue = Shader.PropertyToID("_Alpha");
+    
+    private readonly int magnetAlphaValue = Shader.PropertyToID("_Alpha");
     private Material[] magnetMat;
     
     private CoroutineHandler coroutineHandler;
 
     private List<Collider> coinsInArea;
     private List<Collider> coinsBeingAttracted;
+    
+    private float coinAttractSpeed;
 
     protected override void Awake()
     {
@@ -58,7 +58,7 @@ public class MagnetPowerUp : PowerUp
             yield return null;
         }
 
-        timer.gameObject.SetActive(true);
+        powerUpTimer.gameObject.SetActive(true);
 
         StartCoroutine(AttractCoins());
         yield return new WaitForSeconds(uptime);
@@ -91,16 +91,15 @@ public class MagnetPowerUp : PowerUp
     {
         coinsInArea = new List<Collider>();
         coinsBeingAttracted = new List<Collider>();
+
+        LayerMask coinMask = LayerMask.GetMask("Coins");
         
         while (isActiveAndEnabled)
         {
-            coinsInArea = Physics.OverlapBox(player.transform.position, attractCoinsBox,
-                Quaternion.identity, coinLayer).ToList();
-            
-            print("Coins In Area: " + coinsInArea.Count);
-            print("Coins Being Attracted: " + coinsBeingAttracted.Count);
+            coinsInArea = Physics.OverlapBox(player.transform.position, attractCoinsArea,
+                Quaternion.identity, coinMask).ToList();
 
-            coinAttractSpeed = player.GetCurrentSpeed() * 2.0f;
+            coinAttractSpeed = (player.GetForwardSpeed() * 2.0f);
 
             foreach (Collider coin in coinsInArea)
             {

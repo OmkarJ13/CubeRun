@@ -4,21 +4,20 @@ using UnityEngine;
 
 public class RocketPowerUp : PowerUp
 {
-    [Header("Power-Up")]
-    public float rocketSpeed = 60.0f;
-    [SerializeField] private float cameraRocketOffset = 3.0f;
+    [SerializeField] private float cameraRocketOffset = 5.0f;
     [SerializeField] private float rocketAltitude = 30.0f;
-    [SerializeField] private float takeOffSpeed = 50.0f;
-
-    [SerializeField] private float rocketDissolveSpeed = 2.5f;
-    private static readonly int rocketDissolveValue = Shader.PropertyToID("_Dissolve");
+    [SerializeField] private float rocketTakeOffSpeed = 30.0f;
+    [SerializeField] private float rocketDissolveSpeed = 5.5f;
+    
+    private readonly int rocketDissolveValue = Shader.PropertyToID("_Dissolve");
     private Material[] rocketMat;
 
     // Dependencies
     private FollowCamera followCamera;
+    private CoroutineHandler coroutineHandler;
     
     // Events
-    public event Action RocketEnded;
+    public event Action RocketLanding;
 
     protected override void Awake()
     {
@@ -31,11 +30,21 @@ public class RocketPowerUp : PowerUp
     private void InitDependencies()
     {
         followCamera = GameObject.FindGameObjectWithTag("CameraHolder").GetComponent<FollowCamera>();
+        coroutineHandler = GameObject.FindGameObjectWithTag("CoroutineHandler").GetComponent<CoroutineHandler>();
     }
 
     private void SetupRocketPowerUp()
     {
         rocketMat = GetComponent<MeshRenderer>().materials;
+        
+        PowerUpData data = SaveSystem.GetData("Rocket") as PowerUpData;
+        if (data != null)
+        {
+            uptime = data.uptime;
+            print(uptime);
+        }
+
+        print(uptime);
     }
 
     private void OnEnable()
@@ -47,10 +56,10 @@ public class RocketPowerUp : PowerUp
     {
         player.useGravity = false;
 
-        followCamera.offset += Vector3.up * cameraRocketOffset;
-        StartCoroutine(followCamera.LookAt(player.transform));
+        followCamera.AddOffset(Vector3.up * cameraRocketOffset);
+        coroutineHandler.StartPersistingCoroutine(followCamera.LookAt(player.transform));
 
-        player.verticalVelocity = rocketSpeed / 2.0f;
+        player.SetVerticalVelocity(rocketTakeOffSpeed);
 
         float value = 0.0f;
         while (value <= 1.0f)
@@ -64,14 +73,14 @@ public class RocketPowerUp : PowerUp
             yield return null;
         }
 
-        while (Math.Abs(player.transform.position.y - rocketAltitude) > 0.1f)
+        while (Math.Abs(player.transform.position.y - rocketAltitude) > 0.5f)
         {
             yield return null;
         }
 
-        player.verticalVelocity = 0.0f;
+        player.SetVerticalVelocity(0.0f);
 
-        timer.gameObject.SetActive(true);
+        powerUpTimer.gameObject.SetActive(true);
         yield return new WaitForSeconds(uptime);
         
         StartCoroutine(DeactivateRocket());
@@ -90,7 +99,7 @@ public class RocketPowerUp : PowerUp
             yield return null;
         }
         
-        followCamera.offset -= Vector3.up * cameraRocketOffset;
+        followCamera.AddOffset(-Vector3.up * cameraRocketOffset);
         StartCoroutine(followCamera.ResetLookAt());
         
         player.useGravity = true;
@@ -98,8 +107,7 @@ public class RocketPowerUp : PowerUp
         powerUpWheel.activePowerUp = null;
         powerUpWheel.CheckButtons();
         
-        RocketEnded?.Invoke();
-
+        RocketLanding?.Invoke();
         gameObject.SetActive(false);
     }
 }

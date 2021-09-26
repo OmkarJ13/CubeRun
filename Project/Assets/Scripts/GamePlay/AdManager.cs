@@ -3,11 +3,11 @@ using UnityEngine.Advertisements;
 
 public class AdManager : MonoBehaviour, IUnityAdsListener
 {
-    private GameManager gameManager;
+    private Player player;
     
     private void Awake()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         
         Advertisement.Initialize("4375779");
         Advertisement.AddListener(this);
@@ -41,7 +41,7 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
         if (placementId == "Rewarded_Android" && showResult == ShowResult.Finished)
         {
             // Reward Player
-            gameManager.RevivePlayer();
+            player.RevivePlayer();
         }
     }
 }

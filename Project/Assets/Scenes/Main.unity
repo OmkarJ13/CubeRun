@@ -14,8 +14,8 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.35686275, g: 0.7607844, b: 1, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.29803923, g: 0.6509804, b: 0.8980393, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.003
   m_LinearFogStart: 0
@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 0
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 12ccb828343c3405fb94289774b51aad, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: d48a7646f5d0547e889733d84b50cb9f, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1605202, g: 0.5180438, b: 1.0452659, a: 1}
+  m_IndirectSpecularColor: {r: 0.097786635, g: 0.3520055, b: 0.71981287, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -137,14 +137,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpName: MAGNET
   icon: {fileID: 21300000, guid: b6b087e19907de445a526ce8471717c5, type: 3}
-  uptime: 15
   powerUpWheel: {fileID: 1947215380}
-  timer: {fileID: 1394498974}
-  coinAttractSpeed: 25
-  coinLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  attractCoinsBox: {x: 50, y: 50, z: 50}
+  powerUpTimer: {fileID: 1394498974}
+  attractCoinsArea: {x: 50, y: 50, z: 50}
   magnetDissolveSpeed: 2.5
 --- !u!1 &4048277
 GameObject:
@@ -383,13 +378,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpName: ROCKET
   icon: {fileID: 21300000, guid: 8c9029b45c1ea304c96b6cac1d5f56a0, type: 3}
-  uptime: 10
   powerUpWheel: {fileID: 1947215380}
-  timer: {fileID: 1394498974}
-  rocketSpeed: 60
+  powerUpTimer: {fileID: 1394498974}
   cameraRocketOffset: 5
   rocketAltitude: 30
-  takeOffSpeed: 50
+  rocketTakeOffSpeed: 30
   rocketDissolveSpeed: 5
 --- !u!1 &203280521
 GameObject:
@@ -550,7 +543,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 206258857}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 480187389}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LoadMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &206258857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,6 +766,7 @@ MonoBehaviour:
   turnSpeed: 10
   jumpSpeed: 10
   scaleSpeed: 10
+  flyingSpeed: 80
   speedModifier: 0.1
   jumpModifier: 0.1
   gravityModifier: 0.2
@@ -771,12 +777,12 @@ MonoBehaviour:
   laneDistance: 3
   scaledDownTime: 0.75
   gravity: -9.81
-  obstacleLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
+  gameOverDelay: 1
+  shatteredPlayerPrefab: {fileID: 3903730378999871833, guid: 12ac395ea3ae84d4b8daf3facb7bdaf4, type: 3}
+  gameOverWidget: {fileID: 1401120263}
   powerUpWheel: {fileID: 1947215380}
   powerUpWheelCooldown: {fileID: 1247410279}
-  verticalVelocity: 0
+  powerUpTimer: {fileID: 1394498974}
   canDoubleJump: 0
   useGravity: 1
 --- !u!23 &229085153
@@ -860,7 +866,7 @@ CharacterController:
   m_Height: 1
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0
+  m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
@@ -1052,7 +1058,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &335507408
 GameObject:
@@ -1466,14 +1472,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpName: SHIELD
   icon: {fileID: 21300000, guid: 0f9327cc4dcc1b94ca24ebb54d47bcbc, type: 3}
-  uptime: 5
   powerUpWheel: {fileID: 1947215380}
-  timer: {fileID: 1394498974}
+  powerUpTimer: {fileID: 1394498974}
   dissolveSpeed: 2.5
-  deathBoxSize: {x: 50, y: 50, z: 50}
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &433451775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1586,10 +1587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31081dd76f6c7ee4a81b0ae589eba202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverDelay: 1
-  shatteredPlayerPrefab: {fileID: 3903730378999871833, guid: 12ac395ea3ae84d4b8daf3facb7bdaf4, type: 3}
-  tutorialLevel: {fileID: 833175115485298140, guid: 04cc8138ccf1d6f47bdd4179d89cf0c1, type: 3}
-  gameOverWidget: {fileID: 1401120263}
+  curveStrength: {x: -0.005, y: -0.001}
 --- !u!4 &480187390
 Transform:
   m_ObjectHideFlags: 0
@@ -2012,9 +2010,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpName: DOUBLE JUMP
   icon: {fileID: 21300000, guid: 8dfcae6d7c8c37d458344ca90a80ce33, type: 3}
-  uptime: 5
   powerUpWheel: {fileID: 1947215380}
-  timer: {fileID: 1394498974}
+  powerUpTimer: {fileID: 1394498974}
 --- !u!4 &935296517
 Transform:
   m_ObjectHideFlags: 0
@@ -2272,9 +2269,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a501016b6b77742bc3c641b3f2212b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 15
   initialScale: {x: 0, y: 0}
   finalScale: {x: 1, y: 1}
+  type: 15
   time: 0.5
   startDelay: 0
   endDelay: 2.5
@@ -3507,7 +3504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownTimer: {fileID: 1360009276}
-  cooldownTime: 25
+  cooldownTime: 60
   onCooldownComplete:
     m_PersistentCalls:
       m_Calls:
@@ -4558,9 +4555,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7fea9256fd8c24693d6dae7d732fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 15
   initialPos: {x: 0, y: -1100}
   finalPos: {x: 0, y: 0}
+  type: 15
   time: 0.5
   startDelay: 0
   endDelay: 0
@@ -4637,11 +4634,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79dec9bad48655e47a34e205a2ce994f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followTargets:
-  - {fileID: 229085155}
-  offset: {x: 0, y: 3, z: -10}
   smoothTime: 0.1
   lookAtRotationSpeed: 10
+  offset: {x: 0, y: 3, z: -10}
+  followTargets:
+  - {fileID: 229085155}
 --- !u!4 &1455426447
 Transform:
   m_ObjectHideFlags: 0
@@ -5386,9 +5383,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7fea9256fd8c24693d6dae7d732fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 15
   initialPos: {x: 0, y: -1250}
   finalPos: {x: 0, y: 0}
+  type: 15
   time: 0.5
   startDelay: 0
   endDelay: 0
@@ -6658,9 +6655,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a501016b6b77742bc3c641b3f2212b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 15
   initialScale: {x: 0, y: 0}
   finalScale: {x: 1, y: 1}
+  type: 15
   time: 0.5
   startDelay: 0
   endDelay: 0
@@ -6786,122 +6783,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1999844157}
   m_CullTransparentMesh: 1
---- !u!1 &2015618902
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2015618906}
-  - component: {fileID: 2015618905}
-  - component: {fileID: 2015618904}
-  - component: {fileID: 2015618903}
-  m_Layer: 0
-  m_Name: Camera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &2015618903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2015618902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_AllowXRRendering: 1
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_Version: 2
---- !u!81 &2015618904
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2015618902}
-  m_Enabled: 1
---- !u!20 &2015618905
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2015618902}
-  m_Enabled: 0
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 80
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!4 &2015618906
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2015618902}
-  m_LocalRotation: {x: 0.08682413, y: -0.08682413, z: 0.0075961305, w: 0.99240386}
-  m_LocalPosition: {x: 1, y: 1, z: -6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 10, y: -10, z: 0}
 --- !u!1 &2031356250
 GameObject:
   m_ObjectHideFlags: 0
@@ -6959,7 +6840,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: REVIVE (AD)
+  m_text: 'REVIVE (AD)
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 34fd4922323025f4fbbfd610e0054ef6, type: 2}
   m_sharedMaterial: {fileID: -2884609792958218160, guid: 34fd4922323025f4fbbfd610e0054ef6, type: 2}
@@ -7701,9 +7584,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd4cfe6b133e868498be6531912f0dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 15
   initialAlpha: 0
   finalAlpha: 1
+  type: 15
   time: 1
   startDelay: 1
   endDelay: 7.5
@@ -7801,9 +7684,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7fea9256fd8c24693d6dae7d732fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 15
   initialPos: {x: -150, y: -285}
   finalPos: {x: 150, y: -285}
+  type: 15
   time: 1
   startDelay: 0
   endDelay: 0
@@ -7839,9 +7722,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7fea9256fd8c24693d6dae7d732fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 15
   initialPos: {x: 215, y: -375}
   finalPos: {x: -215, y: -375}
+  type: 15
   time: 0.5
   startDelay: 0
   endDelay: 0
@@ -8018,9 +7901,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7fea9256fd8c24693d6dae7d732fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 15
   initialPos: {x: 0, y: 75}
   finalPos: {x: 0, y: 200}
+  type: 15
   time: 1
   startDelay: 0
   endDelay: 0
@@ -8474,9 +8357,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7fea9256fd8c24693d6dae7d732fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 15
   initialPos: {x: 75, y: 75}
   finalPos: {x: -75, y: 75}
+  type: 15
   time: 1
   startDelay: 0
   endDelay: 0
@@ -13462,9 +13345,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7fea9256fd8c24693d6dae7d732fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 15
   initialPos: {x: -75, y: 75}
   finalPos: {x: 75, y: 75}
+  type: 15
   time: 1
   startDelay: 0
   endDelay: 0
@@ -14017,7 +13900,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8382395565037390987}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: -1.85}
+  m_LocalPosition: {x: 0, y: 0, z: -1.9}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 8868290849096275519}
@@ -14096,9 +13979,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad7fea9256fd8c24693d6dae7d732fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 15
   initialPos: {x: 0, y: 200}
   finalPos: {x: 0, y: 75}
+  type: 15
   time: 1
   startDelay: 0
   endDelay: 0

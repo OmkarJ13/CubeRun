@@ -12,7 +12,7 @@ public class DoubleJumpPowerUp : PowerUp
     {
         player.canDoubleJump = true;
         
-        timer.gameObject.SetActive(true);
+        powerUpTimer.gameObject.SetActive(true);
         yield return new WaitForSeconds(uptime);
         
         player.canDoubleJump = false;

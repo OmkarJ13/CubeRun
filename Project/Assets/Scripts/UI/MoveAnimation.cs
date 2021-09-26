@@ -4,9 +4,9 @@ using UnityEngine.Events;
 public class MoveAnimation : MonoBehaviour
 {
     [Header("Animation")]
-    [SerializeField] private LeanTweenType type = LeanTweenType.easeOutSine;
     [SerializeField] private Vector2 initialPos;
     [SerializeField] private Vector2 finalPos;
+    [SerializeField] private LeanTweenType type = LeanTweenType.easeOutSine;
     [SerializeField] private float time;
     [SerializeField] private float startDelay;
     [SerializeField] private float endDelay;

@@ -355,6 +355,20 @@ MonoBehaviour:
       m_Height: 70
     m_Scale: 1
     m_AtlasIndex: 0
+  - m_Index: 37
+    m_Metrics:
+      m_Width: 37.96875
+      m_Height: 70
+      m_HorizontalBearingX: 3.828125
+      m_HorizontalBearingY: 70
+      m_HorizontalAdvance: 43.421875
+    m_GlyphRect:
+      m_X: 483
+      m_Y: 188
+      m_Width: 39
+      m_Height: 70
+    m_Scale: 1
+    m_AtlasIndex: 0
   - m_Index: 38
     m_Metrics:
       m_Width: 38.3125
@@ -907,6 +921,10 @@ MonoBehaviour:
     m_GlyphIndex: 36
     m_Scale: 1
   - m_ElementType: 1
+    m_Unicode: 66
+    m_GlyphIndex: 37
+    m_Scale: 1
+  - m_ElementType: 1
     m_Unicode: 67
     m_GlyphIndex: 38
     m_Scale: 1
@@ -1248,6 +1266,10 @@ MonoBehaviour:
     m_Y: 96
     m_Width: 51
     m_Height: 89
+  - m_X: 473
+    m_Y: 178
+    m_Width: 58
+    m_Height: 89
   m_FreeGlyphRects:
   - m_X: 79
     m_Y: 30
@@ -1297,10 +1319,6 @@ MonoBehaviour:
     m_Y: 267
     m_Width: 2
     m_Height: 756
-  - m_X: 473
-    m_Y: 91
-    m_Width: 10
-    m_Height: 932
   - m_X: 156
     m_Y: 182
     m_Width: 14
@@ -1357,14 +1375,6 @@ MonoBehaviour:
     m_Y: 87
     m_Width: 1
     m_Height: 86
-  - m_X: 327
-    m_Y: 262
-    m_Width: 696
-    m_Height: 761
-  - m_X: 327
-    m_Y: 188
-    m_Width: 592
-    m_Height: 835
   - m_X: 978
     m_Y: 243
     m_Width: 45
@@ -1381,10 +1391,6 @@ MonoBehaviour:
     m_Y: 89
     m_Width: 94
     m_Height: 934
-  - m_X: 473
-    m_Y: 178
-    m_Width: 68
-    m_Height: 845
   - m_X: 592
     m_Y: 178
     m_Width: 268
@@ -1393,14 +1399,6 @@ MonoBehaviour:
     m_Y: 96
     m_Width: 10
     m_Height: 927
-  - m_X: 414
-    m_Y: 185
-    m_Width: 505
-    m_Height: 838
-  - m_X: 414
-    m_Y: 182
-    m_Width: 127
-    m_Height: 841
   - m_X: 592
     m_Y: 182
     m_Width: 327
@@ -1409,6 +1407,34 @@ MonoBehaviour:
     m_Y: 174
     m_Width: 93
     m_Height: 849
+  - m_X: 473
+    m_Y: 91
+    m_Width: 10
+    m_Height: 87
+  - m_X: 327
+    m_Y: 267
+    m_Width: 696
+    m_Height: 756
+  - m_X: 531
+    m_Y: 262
+    m_Width: 492
+    m_Height: 761
+  - m_X: 327
+    m_Y: 188
+    m_Width: 146
+    m_Height: 835
+  - m_X: 531
+    m_Y: 178
+    m_Width: 10
+    m_Height: 845
+  - m_X: 531
+    m_Y: 185
+    m_Width: 388
+    m_Height: 838
+  - m_X: 414
+    m_Y: 182
+    m_Width: 59
+    m_Height: 841
   m_fontInfo:
     Name: Anton
     PointSize: 73
