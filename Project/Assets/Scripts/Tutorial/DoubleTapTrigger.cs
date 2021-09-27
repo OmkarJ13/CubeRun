@@ -3,14 +3,13 @@ using UnityEngine;
 
 public class DoubleTapTrigger : MonoBehaviour
 {
-    private GameObject doubleTapWidget;
+    [SerializeField] private GameObject doubleTapWidget;
     private SwipeManager swipeManager;
 
     private bool doubleTapped;
 
     private void Awake()
     {
-        doubleTapWidget = GameObject.FindGameObjectWithTag("DoubleTapWidget");   
         swipeManager = GameObject.FindGameObjectWithTag("SwipeManager").GetComponent<SwipeManager>();
     }
 

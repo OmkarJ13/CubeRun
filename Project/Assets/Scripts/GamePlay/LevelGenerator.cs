@@ -29,7 +29,6 @@ public class LevelGenerator : MonoBehaviour
     private void Start()
     {
         SetupBuildings();
-        SetupObstacles(_currentPos);
     }
 
     private void SetupBuildings()

@@ -14,6 +14,7 @@ public class PowerUpWheelButton : MonoBehaviour
 
     [SerializeField] private PowerUpWheel powerUpWheel;
 
+    private AudioManager audioManager;
     private Animator animator;
     private Toggle toggle;
 
@@ -21,8 +22,9 @@ public class PowerUpWheelButton : MonoBehaviour
 
     private void Awake()
     {
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
+
         animator = GetComponent<Animator>();
-        
         toggle = GetComponent<Toggle>();
         toggle.onValueChanged.AddListener(delegate {OnValueChanged(toggle);});
     }
@@ -42,6 +44,8 @@ public class PowerUpWheelButton : MonoBehaviour
         selectedItemText.text = itemName.ToUpper();
         selectedItemDescription.text = itemDescription;
         powerUpWheel.selectedButton = this;
+        
+        audioManager.PlayClip("Click");
     }
 
     public void ButtonDeselected()

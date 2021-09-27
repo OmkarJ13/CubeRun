@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
-
 public class Player : MonoBehaviour
 {
     [Header("Movement")] 
@@ -55,6 +54,7 @@ public class Player : MonoBehaviour
     private SwipeManager swipeManager;
     private GameManager gameManager;
     private UIManager uiManager;
+    private AudioManager audioManager;
 
     // Events
     public event Action ScoreUpdated;
@@ -100,6 +100,7 @@ public class Player : MonoBehaviour
         swipeManager = GameObject.FindGameObjectWithTag("SwipeManager").GetComponent<SwipeManager>();
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
     private void InitPowerUps()
@@ -358,6 +359,7 @@ public class Player : MonoBehaviour
             CoinCollected?.Invoke();
 
             other.gameObject.SetActive(false);
+            audioManager.PlayClip("CoinPickUp");
         }
     }
 
@@ -368,6 +370,7 @@ public class Player : MonoBehaviour
         coroutineHandler.StartPersistingCoroutine(cameraShake.Shake(0.2f, 0.2f));
         coroutineHandler.StartPersistingCoroutine(GameOver());
 
+        audioManager.PlayClip("PlayerDeath");
         gameObject.SetActive(false);
     }
 

@@ -9,9 +9,8 @@ public class RocketCoin : MonoBehaviour
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-
-        for (int i = 0; i < transform.childCount; i++)
-        {
+        
+        for (int i = 0; i < transform.childCount; i++) {
             children.Add(transform.GetChild(i));
         }
     }
