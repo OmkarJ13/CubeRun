@@ -33,7 +33,7 @@ public class TutorialCompleteTrigger : MonoBehaviour
         
         tutorialCompleteWidget.SetActive(true);
 
-        Vector3 spawnPos = player.transform.position + new Vector3(0.0f, 0.5f, 1.0f) * 50.0f;
+        Vector3 spawnPos = Vector3.forward * (player.transform.position.z + 50.0f);
         levelGenerator.SetupObstacles(spawnPos);
     }
 }

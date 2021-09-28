@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 8123602960545669759}
   - component: {fileID: 4068930337073338784}
   - component: {fileID: 5492751037328947865}
+  - component: {fileID: 6737235599842813740}
   m_Layer: 8
   m_Name: Coin (3)
   m_TagString: Coin
@@ -159,6 +160,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRotationSpeed: 80
   maxRotationSpeed: 240
+--- !u!54 &6737235599842813740
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123602960545669755}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &8123602960777830900
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,6 +189,7 @@ GameObject:
   - component: {fileID: 8123602960777830904}
   - component: {fileID: 4068930337229102858}
   - component: {fileID: 5492751036612262963}
+  - component: {fileID: 1250090280998073660}
   m_Layer: 8
   m_Name: Coin (5)
   m_TagString: Coin
@@ -269,6 +287,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRotationSpeed: 80
   maxRotationSpeed: 240
+--- !u!54 &1250090280998073660
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123602960777830900}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &8123602961096221595
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,6 +316,7 @@ GameObject:
   - component: {fileID: 8123602961096221599}
   - component: {fileID: 4039944337317167269}
   - component: {fileID: 4068930337118378338}
+  - component: {fileID: 8806416689730832871}
   m_Layer: 8
   m_Name: Coin (1)
   m_TagString: Coin
@@ -379,6 +414,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRotationSpeed: 80
   maxRotationSpeed: 240
+--- !u!54 &8806416689730832871
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123602961096221595}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &8123602961293759139
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,6 +443,7 @@ GameObject:
   - component: {fileID: 8123602961293759143}
   - component: {fileID: 4068930337306482220}
   - component: {fileID: 5492751036533830933}
+  - component: {fileID: 8854911362693602087}
   m_Layer: 8
   m_Name: Coin (2)
   m_TagString: Coin
@@ -489,6 +541,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRotationSpeed: 80
   maxRotationSpeed: 240
+--- !u!54 &8854911362693602087
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123602961293759139}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &8123602962235699767
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,6 +570,7 @@ GameObject:
   - component: {fileID: 8123602962235699771}
   - component: {fileID: 4068930336741698921}
   - component: {fileID: 5492751037133213264}
+  - component: {fileID: 5010045631931113281}
   m_Layer: 8
   m_Name: Coin (4)
   m_TagString: Coin
@@ -599,3 +668,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRotationSpeed: 80
   maxRotationSpeed: 240
+--- !u!54 &5010045631931113281
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123602962235699767}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1

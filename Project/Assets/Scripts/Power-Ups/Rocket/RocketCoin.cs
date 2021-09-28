@@ -17,8 +17,15 @@ public class RocketCoin : MonoBehaviour
 
     private void OnEnable()
     {
-        player.rocket.RocketLanding += OnRocketEnded;
-        children.ForEach(x => x.gameObject.SetActive(player.rocket.isActiveAndEnabled));
+        if (player.rocket && player.rocket.isActiveAndEnabled)
+        {
+            player.rocket.RocketLanding += OnRocketEnded;
+            children.ForEach(x => x.gameObject.SetActive(true));
+        }
+        else
+        {
+            children.ForEach(x => x.gameObject.SetActive(false));
+        }
     }
 
     private void OnRocketEnded()

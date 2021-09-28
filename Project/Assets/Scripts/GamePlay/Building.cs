@@ -17,6 +17,8 @@ public class Building : MonoBehaviour
         levelGenerator = GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>();
         
         meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer.receiveShadows = false;
+        
         playerTransform = player.transform;
         
         CalculateLength();

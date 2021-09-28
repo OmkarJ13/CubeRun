@@ -23,10 +23,21 @@ public class ShieldPowerUp : PowerUp
     private void SetupShieldPowerUp()
     {
         _shieldMat = GetComponent<MeshRenderer>().material;
+        
+        PowerUpData data = SaveSystem.GetData(name) as PowerUpData;
+        if (data != null)
+        {
+            uptime = data.uptime;
+        }
     }
 
     private IEnumerator ActivateShield()
     {
+        while (player.scalingDown)
+        {
+            yield return null;
+        }
+        
         float value = 0.0f;
         while (value <= 1.0f)
         {

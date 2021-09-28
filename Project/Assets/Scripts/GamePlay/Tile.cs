@@ -41,6 +41,7 @@ public abstract class Tile : MonoBehaviour
         foreach (MeshRenderer meshRenderer in childRenderers)
         {
             bounds.Encapsulate(meshRenderer.bounds);
+            meshRenderer.receiveShadows = false;
         }
 
         return bounds.size.z;

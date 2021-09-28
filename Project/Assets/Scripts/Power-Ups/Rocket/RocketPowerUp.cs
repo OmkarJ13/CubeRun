@@ -15,6 +15,7 @@ public class RocketPowerUp : PowerUp
     // Dependencies
     private FollowCamera followCamera;
     private CoroutineHandler coroutineHandler;
+    private GameObject flameParticleSystem;
     
     // Events
     public event Action RocketLanding;
@@ -31,20 +32,19 @@ public class RocketPowerUp : PowerUp
     {
         followCamera = GameObject.FindGameObjectWithTag("CameraHolder").GetComponent<FollowCamera>();
         coroutineHandler = GameObject.FindGameObjectWithTag("CoroutineHandler").GetComponent<CoroutineHandler>();
+
+        flameParticleSystem = transform.GetChild(0).gameObject;
     }
 
     private void SetupRocketPowerUp()
     {
         rocketMat = GetComponent<MeshRenderer>().materials;
         
-        PowerUpData data = SaveSystem.GetData("Rocket") as PowerUpData;
+        PowerUpData data = SaveSystem.GetData(name) as PowerUpData;
         if (data != null)
         {
             uptime = data.uptime;
-            print(uptime);
         }
-
-        print(uptime);
     }
 
     private void OnEnable()
@@ -54,6 +54,12 @@ public class RocketPowerUp : PowerUp
     
     public IEnumerator ActivateRocket()
     {
+        while (player.scalingDown)
+        {
+            yield return null;
+        }
+        
+        flameParticleSystem.SetActive(true);
         player.useGravity = false;
 
         followCamera.AddOffset(Vector3.up * cameraRocketOffset);
@@ -99,8 +105,8 @@ public class RocketPowerUp : PowerUp
             yield return null;
         }
         
-        followCamera.AddOffset(-Vector3.up * cameraRocketOffset);
-        StartCoroutine(followCamera.ResetLookAt());
+        followCamera.AddOffset(Vector3.down * cameraRocketOffset);
+        coroutineHandler.StartPersistingCoroutine(followCamera.ResetLookAt());
         
         player.useGravity = true;
 

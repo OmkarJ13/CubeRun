@@ -35,7 +35,8 @@ public class Player : MonoBehaviour
 
     [Header("Dependencies")] 
     [SerializeField] private GameObject shatteredPlayerPrefab;
-    [SerializeField] private GameObject gameOverWidget;
+    [SerializeField] private GameObject revivePlayerWidget;
+    [SerializeField] private GameObject playAgainWidget;
     [SerializeField] private PowerUpWheel powerUpWheel;
     [SerializeField] private PowerUpWheelCooldown powerUpWheelCooldown;
     [SerializeField] private PowerUpTimer powerUpTimer;
@@ -83,7 +84,8 @@ public class Player : MonoBehaviour
     public bool hasAnyPowerUp { get; private set; }
     public bool isGrounded { get; private set; }
     public bool scalingDown { get; private set; }
-
+    public bool usedRevive { get; private set; }
+    
     private void Awake()
     {
         InitDependencies();
@@ -109,6 +111,11 @@ public class Player : MonoBehaviour
         rocket = GetComponentInChildren<RocketPowerUp>(true);
         magnet = GetComponentInChildren<MagnetPowerUp>(true);
         doubleJump = GetComponentInChildren<DoubleJumpPowerUp>(true);
+    }
+
+    public void SetUsedRevive(bool value)
+    {
+        usedRevive = value;
     }
 
     private void OnEnable()
@@ -317,7 +324,7 @@ public class Player : MonoBehaviour
         moveDelta.x = nextX - currentX;
         moveDelta.y = verticalVelocity * Time.deltaTime;
 
-        if (rocket.isActiveAndEnabled)
+        if (rocket.isActiveAndEnabled && !scalingDown)
             moveDelta.z = flyingSpeed * Time.deltaTime;
         else
             moveDelta.z = forwardSpeed * Time.deltaTime;
@@ -388,7 +395,10 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(gameOverDelay);
 
-        gameOverWidget.SetActive(true);
+        if (!usedRevive)
+            revivePlayerWidget.SetActive(true);
+        else
+            playAgainWidget.SetActive(true);
     }
 
     private void ReplacePlayerMesh()
@@ -410,6 +420,13 @@ public class Player : MonoBehaviour
         
         Destroy(shatteredPlayer);
         gameObject.SetActive(true);
+
+        if (scalingDown)
+        {
+            controller.skinWidth = 0.08f;
+            transform.localScale = Vector3.one;
+            scalingDown = false;
+        }
 
         followCamera.followTargets = new List<Transform> { transform };
         isDead = false;

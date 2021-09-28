@@ -45,6 +45,6 @@ Material:
     - _Dissolve: 1
     m_Colors:
     - Color_7828132ec1594f49b705043423b2dc0e: {r: 0, g: 0.3347354, b: 1, a: 0}
-    - Color_b3d13b7291f140939dc8d56f3a3703bc: {r: 0, g: 2.9078145, b: 10.680627, a: 0}
+    - Color_b3d13b7291f140939dc8d56f3a3703bc: {r: 0, g: 0.8156863, b: 2.9960785, a: 0}
     - Color_be40a3e2f1164cfebf9a298288db0f93: {r: 83.208206, g: 18.78895, b: 0, a: 0}
   m_BuildTextureStacks: []

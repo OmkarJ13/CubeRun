@@ -93,7 +93,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _Dissolve: 1
+    - _Dissolve: 0
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 1
@@ -117,7 +117,7 @@ Material:
     - Color_11e6bf0d057b47a18be9a1e07f8f37db: {r: 0.5176471, g: 0.5176471, b: 0.5176471, a: 0}
     - Color_5b55020b13d14a5f931781816c545b40: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 0}
     - Color_84f5744fb7b2498487aadb3c7de0c1c3: {r: 0.5176471, g: 0.5176471, b: 0.5176471, a: 0}
-    - Color_b3d13b7291f140939dc8d56f3a3703bc: {r: 0, g: 0, b: 0, a: 0}
+    - Color_b3d13b7291f140939dc8d56f3a3703bc: {r: 0, g: 0.627451, b: 4, a: 0}
     - Color_ddaf71008381431194d4bb9746b11abe: {r: 0, g: 0, b: 0, a: 0}
     - Color_fd5b72afd8fb483891349ebe434cd947: {r: 0.25490198, g: 0.25490198, b: 0.25490198, a: 0}
     - Vector2_d886211389a747d2b277d807ccdf630c: {r: 0, g: 0, b: 0, a: 0}

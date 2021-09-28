@@ -40,10 +40,21 @@ public class MagnetPowerUp : PowerUp
     private void SetupMagnetPowerUp()
     {
         magnetMat = GetComponent<MeshRenderer>().materials;
+        
+        PowerUpData data = SaveSystem.GetData(name) as PowerUpData;
+        if (data != null)
+        {
+            uptime = data.uptime;
+        }
     }
 
     public IEnumerator ActivateMagnet()
     {
+        while (player.scalingDown)
+        {
+            yield return null;
+        }
+        
         float alpha = 0.0f;
         float target = 1.0f;
 

@@ -10,13 +10,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector2 curveStrength = new Vector2(-0.005f, -0.001f);
 
     private readonly int CurveStrength = Shader.PropertyToID("_CurveStrength");
+    
     private LevelGenerator levelGenerator;
+    private SwipeManager swipeManager;
 
     private void Awake ()
     {
         Application.targetFrameRate = 120;
-        levelGenerator = GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>();
         
+        levelGenerator = GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>();
+        swipeManager = GameObject.FindGameObjectWithTag("SwipeManager").GetComponent<SwipeManager>();
+
         DisableLog();
     }
 
@@ -34,6 +38,8 @@ public class GameManager : MonoBehaviour
         if (PlayerPrefs.GetInt("firstRun", 1) == 1)
         {
             tutorialLevel.SetActive(true);
+            swipeManager.disableAllControls = true;
+            
             PlayerPrefs.SetInt("firstRun", 0);
         }
         else

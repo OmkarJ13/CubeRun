@@ -124,7 +124,7 @@ public class SwipeManager : MonoBehaviour
                                 SwipedRight?.Invoke();
                                 Debug.Log("Swiped Right.");
                             }
-                            else if (!disableSwipeLeft)
+                            else if (x < 0f && !disableSwipeLeft)
                             {
                                 SwipedLeft?.Invoke();
                                 Debug.Log("Swiped Left.");
@@ -137,7 +137,7 @@ public class SwipeManager : MonoBehaviour
                                 SwipedUp?.Invoke();
                                 Debug.Log("Swiped Up.");
                             }
-                            else if (!disableSwipeDown)
+                            else if (y < 0f && !disableSwipeDown)
                             {
                                 SwipedDown?.Invoke();
                                 Debug.Log("Swiped Down");

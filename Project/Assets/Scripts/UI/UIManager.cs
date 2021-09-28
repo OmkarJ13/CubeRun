@@ -3,18 +3,20 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("Text Fields")]
+    [Header("UI")]
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI highScoreText;
-    [SerializeField] private TextMeshProUGUI achievementText;
     [SerializeField] private TextMeshProUGUI coinText;
 
     [Header("Dependencies")]
     [SerializeField] private GameObject hudWidget;
     [SerializeField] private GameObject pauseMenu;
-    
+    [SerializeField] private GameObject achievement;
+
     // Dependencies
     private Player player;
+
+    private bool achievementShown;
 
     private void Awake()
     {
@@ -28,10 +30,13 @@ public class UIManager : MonoBehaviour
 
     private void OnNewHighScore()
     {
-        /*highScoreText.gameObject.SetActive(false);
-        achievementText.gameObject.SetActive(true);
-
-        player.HighScoreUnlocked -= OnNewHighScore;*/
+        if (!achievementShown)
+        {
+            achievement.SetActive(true);
+            achievementShown = true;
+        }
+        
+        highScoreText.text = player.HighScore.ToString();
     }
 
     private void OnCoinCollected()

@@ -3,6 +3,17 @@ using UnityEngine;
 
 public class DoubleJumpPowerUp : PowerUp
 {
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        PowerUpData data = SaveSystem.GetData(name) as PowerUpData;
+        if (data != null)
+        {
+            uptime = data.uptime;
+        }
+    }
+
     private void OnEnable()
     {
         StartCoroutine(ActivateDoubleJump());
