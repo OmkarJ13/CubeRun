@@ -10,15 +10,15 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private BackgroundBuildingsPool buildingsPool;
 
     [Header("Obstacle")]
-    [SerializeField] private int minObstacles = 5;
-    [SerializeField] private int maxObstacles = 10;
     [SerializeField] private int obstaclesAtStart = 5;
-    [SerializeField] private float distBetweenObstacles = 50.0f;
+    public int minObstacles = 5;
+    public int maxObstacles = 10;
+    public float distBetweenObstacles = 50.0f;
 
     [Header("Transition")]
     [SerializeField] private float transitionDistAtStart = 40.0f;
-    [SerializeField] private float minTransitionDist = 40.0f;
-    [SerializeField] private float maxTransitionDist = 80.0f;
+    public float minTransitionDist = 40.0f;
+    public float maxTransitionDist = 80.0f;
 
     private Vector3 _currentPos;
     private Vector3 _currentBuildingPos = new Vector3(0.0f, -1.0f, 0.0f);

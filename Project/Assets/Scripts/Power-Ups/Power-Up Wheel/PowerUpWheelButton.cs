@@ -6,7 +6,6 @@ public class PowerUpWheelButton : MonoBehaviour
 {
     public PowerUpType type;
     public string itemName;
-    public Sprite itemIcon;
     public string itemDescription;
 
     [SerializeField] private TextMeshProUGUI selectedItemText;
@@ -45,13 +44,13 @@ public class PowerUpWheelButton : MonoBehaviour
         selectedItemDescription.text = itemDescription;
         powerUpWheel.selectedButton = this;
         
-        audioManager.PlayClip("Click");
+        audioManager.PlayClip("toggleClick");
     }
 
     public void ButtonDeselected()
     {
         animator.SetBool(Selected, false);
-        toggle.image.color = Color.white;
+        toggle.image.color = new Color(225, 225, 225, 200);
 
         selectedItemText.text = "";
         selectedItemDescription.text = "";

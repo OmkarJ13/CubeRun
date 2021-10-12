@@ -14,7 +14,7 @@ public class PowerUpUpgradeUtil : MonoBehaviour
 
     // Default Values
     private int upgradeCost = 500;
-    private float currentUptime = 10.0f;
+    private float currentUptime = 5.0f;
     private float currentLevel = 0.0f;
 
     // Increment Factors
@@ -24,16 +24,17 @@ public class PowerUpUpgradeUtil : MonoBehaviour
     
     // Dependencies
     private Shop shop;
+    private AudioManager audioManager;
 
     private void Awake()
     {
         shop = GetComponentInParent<Shop>();
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 
     private void OnEnable()
     {
-        PowerUpData data = SaveSystem.GetData(powerUpName) as PowerUpData;
-        if (data != null)
+        if (SaveSystem.GetData(powerUpName) is PowerUpData data)
         {
             upgradeCost = data.cost;
             currentUptime = data.uptime;
@@ -74,6 +75,7 @@ public class PowerUpUpgradeUtil : MonoBehaviour
         if (upgradeCost > currentCoins)
         {
             cannotAffordPrompt.SetActive(true);
+            audioManager.PlayClip("buttonClick");
         }
         else
         {
@@ -82,6 +84,8 @@ public class PowerUpUpgradeUtil : MonoBehaviour
             
             shop.UpdateCoins();
             SaveUpgradedPowerUp();
+            
+            audioManager.PlayClip("upgrade");
         }
     }
 

@@ -31,16 +31,17 @@ public class FollowCamera : MonoBehaviour
 
     private Vector3 GetCenterPoint()
     {
-        if (followTargets.Count == 0)
+        if (followTargets.Count > 0)
         {
-            Debug.LogError("Follow target is NULL!");
-        }
-        else if (followTargets.Count == 1)
-        {
-            return followTargets[0].position;
+            if (followTargets.Count == 1)
+            {
+                return followTargets[0].position;
+            }
+
+            return GetEncapsulatingBounds().center;
         }
 
-        return GetEncapsulatingBounds().center;
+        return Vector3.zero;
     }
 
     private Bounds GetEncapsulatingBounds()

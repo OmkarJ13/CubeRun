@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &525362674859977789
 Transform:
@@ -49,7 +49,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5626558504742439919
 Transform:
@@ -60,7 +60,7 @@ Transform:
   m_GameObject: {fileID: 8362152204163385907}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1.25, y: 8, z: 2}
+  m_LocalScale: {x: 1.25, y: 8, z: 2.5}
   m_Children: []
   m_Father: {fileID: 525362674859977789}
   m_RootOrder: 1
@@ -145,7 +145,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4065428050356081275
 Transform:
@@ -156,7 +156,7 @@ Transform:
   m_GameObject: {fileID: 8653310898371103686}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1.25, y: 8, z: 2}
+  m_LocalScale: {x: 1.25, y: 8, z: 2.5}
   m_Children: []
   m_Father: {fileID: 525362674859977789}
   m_RootOrder: 0

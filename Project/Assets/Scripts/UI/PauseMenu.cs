@@ -4,6 +4,7 @@ public class PauseMenu : MonoBehaviour
 {
     private UIManager uIManager;
     private SwipeManager swipeManager;
+    private AudioManager audioManager;
 
     private void Awake()
     {

@@ -40,9 +40,8 @@ public class MagnetPowerUp : PowerUp
     private void SetupMagnetPowerUp()
     {
         magnetMat = GetComponent<MeshRenderer>().materials;
-        
-        PowerUpData data = SaveSystem.GetData(name) as PowerUpData;
-        if (data != null)
+
+        if (SaveSystem.GetData(name) is PowerUpData data)
         {
             uptime = data.uptime;
         }
@@ -68,7 +67,8 @@ public class MagnetPowerUp : PowerUp
             alpha = Mathf.MoveTowards(alpha, target, magnetDissolveSpeed * Time.deltaTime);
             yield return null;
         }
-
+        
+        audioManager.PlayClip("powerUp");
         powerUpTimer.gameObject.SetActive(true);
 
         StartCoroutine(AttractCoins());

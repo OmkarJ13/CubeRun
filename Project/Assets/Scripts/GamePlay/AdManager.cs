@@ -7,10 +7,10 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
     
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        
         Advertisement.Initialize("4375779");
         Advertisement.AddListener(this);
+        
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     public void PlayRewarded()
@@ -23,17 +23,15 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
 
     public void OnUnityAdsReady(string placementId)
     {
-        print("Ads Ready");
     }
 
     public void OnUnityAdsDidError(string message)
     {
-        print("Ads Error : " + message);
+
     }
 
     public void OnUnityAdsDidStart(string placementId)
     {
-        print("Ad Started");
     }
 
     public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
@@ -41,7 +39,10 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
         if (placementId == "Rewarded_Android" && showResult == ShowResult.Finished)
         {
             // Reward Player
-            player.RevivePlayer();
+            if (player)
+            {
+                player.RevivePlayer();
+            }
         }
     }
 }

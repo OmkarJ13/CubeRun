@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
     private LevelGenerator levelGenerator;
     private FollowCamera followCamera;
     private SwipeManager swipeManager;
-    private GameManager gameManager;
     private UIManager uiManager;
     private AudioManager audioManager;
 
@@ -100,7 +99,6 @@ public class Player : MonoBehaviour
         levelGenerator = GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>();
         followCamera = GameObject.FindGameObjectWithTag("CameraHolder").GetComponent<FollowCamera>();
         swipeManager = GameObject.FindGameObjectWithTag("SwipeManager").GetComponent<SwipeManager>();
-        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
@@ -204,6 +202,8 @@ public class Player : MonoBehaviour
                 forwardSpeed += speedModifier;
                 jumpSpeed += jumpModifier;
                 gravity += gravityModifier;
+                
+                levelGenerator.distBetweenObstacles += 0.2f;
             }
             else if (forwardSpeed > maxSpeed)
             {
@@ -366,7 +366,7 @@ public class Player : MonoBehaviour
             CoinCollected?.Invoke();
 
             other.gameObject.SetActive(false);
-            audioManager.PlayClip("CoinPickUp");
+            audioManager.PlayClipRandomized("coinPickUp");
         }
     }
 
@@ -377,7 +377,7 @@ public class Player : MonoBehaviour
         coroutineHandler.StartPersistingCoroutine(cameraShake.Shake(0.2f, 0.2f));
         coroutineHandler.StartPersistingCoroutine(GameOver());
 
-        audioManager.PlayClip("PlayerDeath");
+        audioManager.PlayClip("gameOver");
         gameObject.SetActive(false);
     }
 
@@ -396,9 +396,13 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(gameOverDelay);
 
         if (!usedRevive)
+        {
             revivePlayerWidget.SetActive(true);
+        }
         else
+        {
             playAgainWidget.SetActive(true);
+        }
     }
 
     private void ReplacePlayerMesh()

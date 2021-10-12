@@ -23,9 +23,8 @@ public class ShieldPowerUp : PowerUp
     private void SetupShieldPowerUp()
     {
         _shieldMat = GetComponent<MeshRenderer>().material;
-        
-        PowerUpData data = SaveSystem.GetData(name) as PowerUpData;
-        if (data != null)
+
+        if (SaveSystem.GetData(name) is PowerUpData data)
         {
             uptime = data.uptime;
         }
@@ -47,6 +46,7 @@ public class ShieldPowerUp : PowerUp
             yield return null;
         }
 
+        audioManager.PlayClip("powerUp");
         powerUpTimer.gameObject.SetActive(true);
         yield return new WaitForSeconds(uptime);
 

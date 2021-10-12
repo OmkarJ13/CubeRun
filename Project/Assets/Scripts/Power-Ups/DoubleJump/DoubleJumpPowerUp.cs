@@ -6,9 +6,8 @@ public class DoubleJumpPowerUp : PowerUp
     protected override void Awake()
     {
         base.Awake();
-        
-        PowerUpData data = SaveSystem.GetData(name) as PowerUpData;
-        if (data != null)
+
+        if (SaveSystem.GetData(name) is PowerUpData data)
         {
             uptime = data.uptime;
         }
@@ -17,6 +16,7 @@ public class DoubleJumpPowerUp : PowerUp
     private void OnEnable()
     {
         StartCoroutine(ActivateDoubleJump());
+        audioManager.PlayClip("powerUp");
     }
 
     public IEnumerator ActivateDoubleJump()

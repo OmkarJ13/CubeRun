@@ -71,12 +71,10 @@ public class SwipeManager : MonoBehaviour
                                 if (x > 0f && !disableSwipeRight)
                                 {
                                     SwipedRight?.Invoke();
-                                    Debug.Log("Swiped Right.");
                                 }
                                 else if (!disableSwipeLeft)
                                 {
                                     SwipedLeft?.Invoke();
-                                    Debug.Log("Swiped Left.");
                                 }
                             }
                             else
@@ -84,12 +82,10 @@ public class SwipeManager : MonoBehaviour
                                 if (y > 0f && !disableSwipeUp)
                                 {
                                     SwipedUp?.Invoke();
-                                    Debug.Log("Swiped Up.");
                                 }
                                 else if (!disableSwipeDown)
                                 {
                                     SwipedDown?.Invoke();
-                                    Debug.Log("Swiped Down");
                                 }
                             }
                             Reset();
@@ -122,12 +118,10 @@ public class SwipeManager : MonoBehaviour
                             if (x > 0f && !disableSwipeRight)
                             {
                                 SwipedRight?.Invoke();
-                                Debug.Log("Swiped Right.");
                             }
                             else if (x < 0f && !disableSwipeLeft)
                             {
                                 SwipedLeft?.Invoke();
-                                Debug.Log("Swiped Left.");
                             }
                         }
                         else
@@ -135,12 +129,10 @@ public class SwipeManager : MonoBehaviour
                             if (y > 0f && !disableSwipeUp)
                             {
                                 SwipedUp?.Invoke();
-                                Debug.Log("Swiped Up.");
                             }
                             else if (y < 0f && !disableSwipeDown)
                             {
                                 SwipedDown?.Invoke();
-                                Debug.Log("Swiped Down");
                             }
                         }
                         Reset();
@@ -207,7 +199,6 @@ public class SwipeManager : MonoBehaviour
                 timePassedSinceTap += Time.deltaTime;
                 if (tapped && !disableDoubleTap)
                 {
-                    Debug.Log("Double Tap!");
                     DoubleTapped?.Invoke();
                 }
                 

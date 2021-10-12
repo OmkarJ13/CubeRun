@@ -16,22 +16,12 @@ public class GameManager : MonoBehaviour
 
     private void Awake ()
     {
-        Application.targetFrameRate = 120;
+        Application.targetFrameRate = 60;
         
         levelGenerator = GameObject.FindGameObjectWithTag("LevelGenerator").GetComponent<LevelGenerator>();
         swipeManager = GameObject.FindGameObjectWithTag("SwipeManager").GetComponent<SwipeManager>();
-
-        DisableLog();
     }
-
-    private void DisableLog()
-    {
-        #if UNITY_EDITOR
-        Debug.unityLogger.logEnabled = true;
-        #else
-        Debug.unityLogger.logEnabled = false;
-        #endif
-    }
+    
 
     private void CheckTutorial()
     {

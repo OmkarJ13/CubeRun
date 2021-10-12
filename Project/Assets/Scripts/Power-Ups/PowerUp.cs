@@ -18,14 +18,16 @@ public abstract class PowerUp : MonoBehaviour
 
     // Dependencies
     protected Player player;
+    protected AudioManager audioManager;
 
     protected PowerUp()
     {
-        uptime = 10.0f;
+        uptime = 5.0f;
     }
 
     protected virtual void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
     }
 }

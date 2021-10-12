@@ -12,7 +12,6 @@ public class PowerUpWheel : MonoBehaviour
     // Dependencies
     private UIManager uiManager;
     private SwipeManager swipeManager;
-    private AudioManager audioManager;
     private Player player;
 
     private PowerUpWheelButton[] allButtons;
@@ -26,7 +25,6 @@ public class PowerUpWheel : MonoBehaviour
     {
         uiManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
         swipeManager = GameObject.FindGameObjectWithTag("SwipeManager").GetComponent<SwipeManager>();
-        audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         
         allButtons = GetComponentsInChildren<PowerUpWheelButton>();
@@ -55,6 +53,9 @@ public class PowerUpWheel : MonoBehaviour
                 activePowerUp = player.rocket;
                 player.rocket.gameObject.SetActive(true);
                 break;
+            
+            default:
+                return;
         }
         
         selectedButton.gameObject.SetActive(false);
@@ -102,7 +103,6 @@ public class PowerUpWheel : MonoBehaviour
         if (selectedButton)
         {
             ItemSelected();
-            audioManager.PlayClip("Click");
         }
     }
 }

@@ -16,7 +16,7 @@ public class RocketPowerUp : PowerUp
     private FollowCamera followCamera;
     private CoroutineHandler coroutineHandler;
     private GameObject flameParticleSystem;
-    
+
     // Events
     public event Action RocketLanding;
 
@@ -39,15 +39,14 @@ public class RocketPowerUp : PowerUp
     private void SetupRocketPowerUp()
     {
         rocketMat = GetComponent<MeshRenderer>().materials;
-        
-        PowerUpData data = SaveSystem.GetData(name) as PowerUpData;
-        if (data != null)
+
+        if (SaveSystem.GetData(name) is PowerUpData data)
         {
             uptime = data.uptime;
         }
     }
 
-    private void OnEnable()
+    private  void OnEnable()
     {
         StartCoroutine(ActivateRocket());
     }
@@ -61,7 +60,6 @@ public class RocketPowerUp : PowerUp
         
         flameParticleSystem.SetActive(true);
         player.useGravity = false;
-
         followCamera.AddOffset(Vector3.up * cameraRocketOffset);
         coroutineHandler.StartPersistingCoroutine(followCamera.LookAt(player.transform));
 
@@ -78,6 +76,8 @@ public class RocketPowerUp : PowerUp
             value += rocketDissolveSpeed * Time.deltaTime;
             yield return null;
         }
+        
+        audioManager.PlayClip("powerUp");
 
         while (Math.Abs(player.transform.position.y - rocketAltitude) > 0.5f)
         {
