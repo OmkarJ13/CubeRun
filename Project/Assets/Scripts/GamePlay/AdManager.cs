@@ -1,48 +1,60 @@
 using UnityEngine;
-using UnityEngine.Advertisements;
+using GoogleMobileAds.Api;
+using System;
 
-public class AdManager : MonoBehaviour, IUnityAdsListener
+public class AdManager : MonoBehaviour
 {
+    [SerializeField] private ModalWindow modalWindow;
+    
+    private RewardBasedVideoAd rewardBasedVideo;
     private Player player;
     
     private void Awake()
     {
-        Advertisement.Initialize("4375779");
-        Advertisement.AddListener(this);
-        
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        
+        MobileAds.Initialize(status => {});
+        rewardBasedVideo = RewardBasedVideoAd.Instance;
+
+        rewardBasedVideo.OnAdRewarded += OnAdRewarded;
+        rewardBasedVideo.OnAdClosed += OnAdClosed;
+
+        RequestRewardVideo();
     }
 
-    public void PlayRewarded()
+    private AdRequest CreateAdRequest()
     {
-        if (Advertisement.IsReady())
+        return new AdRequest.Builder().Build();
+    }
+
+    private void RequestRewardVideo()
+    {
+        string adUnitId = "ca-app-pub-3940256099942544/5224354917";
+        rewardBasedVideo.LoadAd(CreateAdRequest(), adUnitId);
+    }
+
+    public void ShowRewardBasedVideo()
+    {
+        if (rewardBasedVideo.IsLoaded())
         {
-            Advertisement.Show("Rewarded_Android");
+            rewardBasedVideo.Show();
+        }
+        else
+        {
+            modalWindow.gameObject.SetActive(true);
         }
     }
 
-    public void OnUnityAdsReady(string placementId)
+    private void OnAdRewarded(object sender, Reward reward)
     {
-    }
-
-    public void OnUnityAdsDidError(string message)
-    {
-
-    }
-
-    public void OnUnityAdsDidStart(string placementId)
-    {
-    }
-
-    public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
-    {
-        if (placementId == "Rewarded_Android" && showResult == ShowResult.Finished)
+        if (player)
         {
-            // Reward Player
-            if (player)
-            {
-                player.RevivePlayer();
-            }
+            player.RevivePlayer();
         }
+    }
+
+    private void OnAdClosed(object sender, EventArgs args)
+    {
+        RequestRewardVideo();
     }
 }

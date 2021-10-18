@@ -12,6 +12,7 @@ public class ScaleAnimation : MonoBehaviour
     [SerializeField] private float endDelay;
     [SerializeField] private bool ignoreTimeScale;
     [SerializeField] private bool animateAlpha;
+    [SerializeField] private bool playOnAwake;
     [SerializeField] private UnityEvent onAnimateIn;
     [SerializeField] private UnityEvent onAnimateOut;
 
@@ -27,7 +28,8 @@ public class ScaleAnimation : MonoBehaviour
 
     private void OnEnable()
     {
-        AnimateIn();
+        if (playOnAwake) 
+            AnimateIn();
     }
 
     public void AnimateIn()

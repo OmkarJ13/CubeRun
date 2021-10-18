@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PowerUpWheelButton : MonoBehaviour
@@ -12,18 +13,16 @@ public class PowerUpWheelButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI selectedItemDescription;
 
     [SerializeField] private PowerUpWheel powerUpWheel;
+    [SerializeField] private UnityEvent buttonSelected;
+    [SerializeField] private UnityEvent buttonDeselected;
 
     private AudioManager audioManager;
-    private Animator animator;
     private Toggle toggle;
-
-    private static readonly int Selected = Animator.StringToHash("Selected");
-
+    
     private void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("AudioManager").GetComponent<AudioManager>();
 
-        animator = GetComponent<Animator>();
         toggle = GetComponent<Toggle>();
         toggle.onValueChanged.AddListener(delegate {OnValueChanged(toggle);});
     }
@@ -37,7 +36,7 @@ public class PowerUpWheelButton : MonoBehaviour
 
     public void ButtonSelected()
     {
-        animator.SetBool(Selected, true);
+        buttonSelected.Invoke();
         toggle.image.color = Color.yellow;
 
         selectedItemText.text = itemName.ToUpper();
@@ -49,7 +48,7 @@ public class PowerUpWheelButton : MonoBehaviour
 
     public void ButtonDeselected()
     {
-        animator.SetBool(Selected, false);
+        buttonDeselected.Invoke();
         toggle.image.color = new Color(225, 225, 225, 200);
 
         selectedItemText.text = "";

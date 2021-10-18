@@ -10,7 +10,7 @@ public class PowerUpUpgradeUtil : MonoBehaviour
     [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private TextMeshProUGUI currentUptimeText;
     [SerializeField] private Image currentLevelProgressBar;
-    [SerializeField] private GameObject cannotAffordPrompt;
+    [SerializeField] private ModalWindow cannotAffordPrompt;
 
     // Default Values
     private int upgradeCost = 500;
@@ -74,7 +74,7 @@ public class PowerUpUpgradeUtil : MonoBehaviour
         int currentCoins = PlayerPrefs.GetInt("Coins", 0);
         if (upgradeCost > currentCoins)
         {
-            cannotAffordPrompt.SetActive(true);
+            cannotAffordPrompt.gameObject.SetActive(true);
             audioManager.PlayClip("buttonClick");
         }
         else

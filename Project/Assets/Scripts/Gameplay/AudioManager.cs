@@ -8,7 +8,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private List<Sound> sounds;
     private Player player;
     
-    private bool isPaused;
     private bool isPlaying;
 
     private void Awake()
@@ -40,12 +39,10 @@ public class AudioManager : MonoBehaviour
         if (isPlaying && player.isDead)
         {
             PauseClip("backgroundMusic");
-            isPaused = true;
         }
         else if (isPlaying && !player.isDead)
         {
             UnPauseClip("backgroundMusic");
-            isPaused = false;
         }
     }
 

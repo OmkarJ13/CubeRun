@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!54 &622672012882288211
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3478916347964707827}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 1
 --- !u!135 &5245404178850585322
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -43,22 +27,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRotationSpeed: 80
   maxRotationSpeed: 240
---- !u!54 &3757128535365472355
+--- !u!54 &7052297158336925668
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3478916348629950687}
+  m_GameObject: {fileID: 3478916347964707827}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!135 &5245404179054243363
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -86,22 +70,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRotationSpeed: 80
   maxRotationSpeed: 240
---- !u!54 &7600247896407319003
+--- !u!54 &818770206363704544
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3478916348712458134}
+  m_GameObject: {fileID: 3478916348629950687}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!135 &5245404178251456943
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -129,22 +113,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRotationSpeed: 80
   maxRotationSpeed: 240
---- !u!54 &2296502356080847209
+--- !u!54 &9090296672416192553
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3478916349258776514}
+  m_GameObject: {fileID: 3478916348712458134}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!135 &5245404178060699785
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -172,22 +156,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRotationSpeed: 80
   maxRotationSpeed: 240
---- !u!54 &7966761824200202898
+--- !u!54 &8125429274936282180
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3478916349840568463}
+  m_GameObject: {fileID: 3478916349258776514}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!135 &5236584802090858278
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -215,6 +199,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minRotationSpeed: 80
   maxRotationSpeed: 240
+--- !u!54 &5138147510093313085
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3478916349840568463}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4361452759176010871
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +332,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2f96e94b60385da4aaaf8d0f697760e1, type: 2}
@@ -349,7 +353,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 4294967294
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
@@ -419,6 +423,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2f96e94b60385da4aaaf8d0f697760e1, type: 2}
@@ -436,7 +444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 4294967294
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
@@ -506,6 +514,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2f96e94b60385da4aaaf8d0f697760e1, type: 2}
@@ -523,7 +535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 4294967294
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
@@ -593,6 +605,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2f96e94b60385da4aaaf8d0f697760e1, type: 2}
@@ -610,7 +626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 4294967294
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
@@ -680,6 +696,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2f96e94b60385da4aaaf8d0f697760e1, type: 2}
@@ -697,7 +717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 4294967294
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ab0ebc4d71868648a1d80d6e99fd0ca, type: 3}

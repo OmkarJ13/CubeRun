@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject tutorialLevel;
     
     [Header("Global Curve Settings")] 
-    [SerializeField] private Vector2 curveStrength = new Vector2(-0.005f, -0.001f);
+    [SerializeField] private Vector2 curveStrength = new Vector2(-0.004f, -0.001f);
 
     private readonly int CurveStrength = Shader.PropertyToID("_CurveStrength");
     
@@ -56,15 +56,6 @@ public class GameManager : MonoBehaviour
     {
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentScene);
-    }
-
-    public void LoadNextLevel ()
-    {
-        int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
-        if (nextScene == SceneManager.sceneCountInBuildSettings)
-            nextScene = 0;
-
-        SceneManager.LoadScene(nextScene);
     }
 
     public void LoadMainMenu()

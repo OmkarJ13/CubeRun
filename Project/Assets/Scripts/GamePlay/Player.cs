@@ -331,7 +331,7 @@ public class Player : MonoBehaviour
 
         controller.Move(moveDelta);
     }
-
+    
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.collider.CompareTag("Obstacle") && !isDead)
@@ -376,21 +376,19 @@ public class Player : MonoBehaviour
 
         coroutineHandler.StartPersistingCoroutine(cameraShake.Shake(0.2f, 0.2f));
         coroutineHandler.StartPersistingCoroutine(GameOver());
-
-        audioManager.PlayClip("gameOver");
-        gameObject.SetActive(false);
     }
 
     public IEnumerator GameOver()
     {
-        PlayerPrefs.SetInt("HighScore", HighScore);
+        audioManager.PlayClip("gameOver");
 
+        PlayerPrefs.SetInt("HighScore", HighScore);
         int currentCoins = PlayerPrefs.GetInt("Coins", 0);
         PlayerPrefs.SetInt("Coins", currentCoins + CollectedCoins);
-
+        
+        gameObject.SetActive(false);
         ReplacePlayerMesh();
-
-        levelGenerator.enabled = false;
+        
         uiManager.DisableHUD();
 
         yield return new WaitForSeconds(gameOverDelay);
@@ -421,9 +419,6 @@ public class Player : MonoBehaviour
     public void RevivePlayer()
     {
         DestroySurroundings();
-        
-        Destroy(shatteredPlayer);
-        gameObject.SetActive(true);
 
         if (scalingDown)
         {
@@ -433,13 +428,15 @@ public class Player : MonoBehaviour
         }
 
         followCamera.followTargets = new List<Transform> { transform };
-        isDead = false;
-
-        levelGenerator.enabled = true;
+        
         uiManager.EnableHUD();
+        isDead = false;
+        
+        shatteredPlayer.SetActive(false);
+        gameObject.SetActive(true);
     }
     
-    private void DestroySurroundings()
+    public void DestroySurroundings()
     {
         Collider[] results = Physics.OverlapBox(transform.position, new Vector3(100, 100, 100), Quaternion.identity, LayerMask.GetMask("Obstacles"));
         if (results.Length > 0)
